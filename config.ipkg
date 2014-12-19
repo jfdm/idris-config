@@ -1,0 +1,11 @@
+package config
+
+opts = "-p effects -p lightyear"
+
+modules = Config.Parse.Utils
+        , Config.Parse.Common
+        , Config.Parse.Reader
+
+        , Config.INI
+        , Config.Properties
+        , Config.JSON
