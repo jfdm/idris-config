@@ -2,15 +2,24 @@ module Main
 
 import System
 
-import public Effects
-import public Effect.File
-import public Effect.StdIO
+import Effects
+import Effect.File
+import Effect.StdIO
+
+import Control.Monad.Identity
+
+import Lightyear.Core
+import Lightyear.Combinators
+import Lightyear.Strings
+
+import Data.SortedMap
 
 import Config.JSON
+import Config.YAML
 
 configMain : String -> {[STDIO, FILE_IO ()]} Eff ()
 configMain fname = with Effects do
-    d <- readJSONConfig fname
+    d <- readYAMLConfig fname
     case d of
       Left err  => putStrLn $ err
       Right res => do

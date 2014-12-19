@@ -30,8 +30,6 @@ import Config.Parse.Reader
 ||| + Schema's
 ||| + User Defined tags
 ||| + Interesting Scalar Formats
-||| + Scalar blocks must end with two EOL.
-||| + Directives aside from DTD
 public
 data YAMLNode : Type where
   -- Value Types
@@ -95,21 +93,9 @@ yamlInt = do
   <?> "YAML Int"
 
 yamlNum : Parser YAMLNode
-yamlNum = yamlInt <|> yamlFloat <?> "YAML Num"
+yamlNum = yamlFloat <|> yamlInt <?> "YAML Num"
 
 -- [ Scalars ]
-
-yamlBlockScalar : Parser YAMLNode
-yamlBlockScalar = yamlScalarBlockGen '>'
-              <|> yamlScalarBlockGen '|'
-              <?> "YAML Scalar Block"
-  where
-    yamlScalarBlockGen : Char -> Parser YAMLNode
-    yamlScalarBlockGen c = do
-        char c
-        ws <- map pack $ manyTill anyChar (eol $> eol)
-        pure $ YAMLScalar ws
-      <?> "YAML Block General"
 
 yamlQuotedScalar : Parser YAMLNode
 yamlQuotedScalar = yamlQuoteGen '\'' <|> yamlQuoteGen '\"' <?> "YAML Qoted Scalar"
@@ -120,27 +106,85 @@ yamlQuotedScalar = yamlQuoteGen '\'' <|> yamlQuoteGen '\"' <?> "YAML Qoted Scala
         pure $ YAMLScalar $ ws
       <?> "YAML Scalar General"
 
-yamlScalar : Parser YAMLNode
-yamlScalar = yamlQuotedScalar <|> yamlBlockScalar <?> "YAML Scalar"
-
-{-
- show (YAMLSeq ys)   = "!!seq " ++ show ys
-  show (YAMLMap ys)   = "!!map " ++ "{" ++
-  -}
 -- [ Nodes ]
 mutual
-  yamlSeqInline : Parser $ List YAMLNode
-  yamlSeqInline = brackets (commaSep yamlValue) <?> "YAML Inline Sequence"
+  yamlSeqInline : Parser YAMLNode
+  yamlSeqInline = do
+    xs <- brackets (commaSep (lexeme yamlValue)) <?> "YAML Inline Sequence"
+    pure $ YAMLSeq xs
 
-  yamlKVPair : Parser $ (String, YAMLNode)
+  yamlKVPair : Parser (String, YAMLNode)
   yamlKVPair = do
-    key <- yamlString
-    colon
-    value <- yamlValue
-    pure (key, value)
+     key <- (some $ lexeme word)
+     colon
+     value <- yamlValue
+     pure $ (unwords key, value)
+    <?> "YAML KV Pair Flow"
 
   yamlMap : Parser YAMLNode
-  yamlMap =
+  yamlMap = do
+      xs <- braces (commaSep (yamlKVPair <$ space)) <?> "YAML Map"
+      pure $ YAMLMap $ fromList xs
+    <?> "YAML Map FLow"
+
+  yamlValue : Parser YAMLNode
+  yamlValue = yamlString <|> yamlNull <|> yamlBool <|> yamlNum <|> yamlSeqInline <|> yamlMap <?> "YAMLValue"
+
+yamlSeqList : Parser YAMLNode
+yamlSeqList = do
+  xs <- some (token "-" $!> yamlValue <$ space ) <?> "YAML List Sequence"
+  pure $ YAMLSeq xs
+
+yamlBlockKVPair : Parser (String, YAMLNode)
+yamlBlockKVPair = do
+    key <- manyTill word colon
+    eol
+    value <- yamlValue
+    pure $ ((unwords key), value)
+  <?> "YAML Block KV Pair"
+
+yamlMapBlock : Parser YAMLNode
+yamlMapBlock = do
+    xs <- some (yamlBlockKVPair <$ space)
+    pure $ YAMLMap $ fromList xs
+  <?> "Map Block"
+
+yamlDirective : Parser (String, String)
+yamlDirective = do
+    string "%"
+    k <- word
+    space
+    v <- manyTill anyChar eol
+    pure $ (k, pack v)
+  <?> "YAML DIrective"
+
+public
+parseYAMLDoc : Parser YAMLNode
+parseYAMLDoc = do
+    ds <- some yamlDirective
+    token "---"
+    b <- body
+    opt $ token "..."
+    pure $ YAMLDoc ds b
+   <?> "YAML Document"
+  where
+    body = yamlMapBlock <|> yamlSeqList
+
+public
+parseYAMLStream : Parser (List YAMLNode)
+parseYAMLStream = some parseYAMLDoc
+
+-- -------------------------------------------------------------------- [ Read ]
+public
+readYAMLConfig : String -> {[FILE_IO ()]} Eff (Either String YAMLNode)
+readYAMLConfig = readConfigFile parseYAMLDoc
+
+public
+readYAMLStream : String -> {[FILE_IO ()]} Eff (Either String (List YAMLNode))
+readYAMLStream = readConfigFile parseYAMLStream
+
+-- --------------------------------------------------------------------- [ EOF ]
+
 
 {-
 % Many Directives
@@ -150,28 +194,13 @@ mutual
 ... # End DOcument
 -}
 
-
-{-
-Alias nodes are: &<label> => def *<label>
-Empty Nodes are empty
-Scalars are: SQuote, DQuote, Raw
-Collections:
-  Seq are denoted by []
-  Maps are denoted by {(key :value)+}
-Blocks are Either Literal (|) or Folded (>)
- With Indicator Indent 1
- With Indicator Chomp
-   Keep  +
-   Clip Default
-   Strip -
--}
 {-
 
 ||| This does not recognise:
 |||  + keep or strip options
 |||  + indent options
-
--- ||| + Inline Comments.
+|||  + Inline Comments.
+|||  + Scalar BLocks
+||| + Scalar blocks must end with two EOL.
 -}
-
 -- --------------------------------------------------------------------- [ EOF ]

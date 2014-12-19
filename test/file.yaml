@@ -1,3 +1,4 @@
+%YAML 1.2
 ---
 receipt:     Oz-Ware Purchase Invoice
 date:        2012-08-06
@@ -17,18 +18,7 @@ items:
       price:     100.27
       quantity:  1
 
-bill-to:  &id001
-    street: |
-            123 Tornado Alley
-            Suite 16
+bill-to:
     city:   East Centerville
     state:  KS
-
-ship-to:  *id001
-
-specialDelivery:  >
-    Follow the Yellow Brick
-    Road to the Emerald City.
-    Pay no attention to the
-    man behind the curtain.
 ...
