@@ -1,24 +1,14 @@
 %YAML 1.2
 ---
-receipt:     Oz-Ware Purchase Invoice
-date:        2012-08-06
-customer:
-    given:   Dorothy
-    family:  Gale
+receipt: Oz Ware Purchase Invoice
+date: "2012 08 06"
+customer: {given: Dorothy, family: Gale}
+items: {partno:   A4786, descrip:   Water Bucket Filled}
+items: { partno:   E1628,
+      descrip:   High Heeled Ruby Slippers,
+      size:      8,
+      price:     100.27,
+      quantity:  1}
+billto: { city: East Centerville, state: KS}
 
-items:
-    - part_no:   A4786
-      descrip:   Water Bucket (Filled)
-      price:     1.47
-      quantity:  4
-
-    - part_no:   E1628
-      descrip:   High Heeled "Ruby" Slippers
-      size:      8
-      price:     100.27
-      quantity:  1
-
-bill-to:
-    city:   East Centerville
-    state:  KS
 ...

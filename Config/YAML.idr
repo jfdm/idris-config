@@ -41,7 +41,7 @@ data YAMLNode : Type where
   -- Node Types
   YAMLScalar : String -> YAMLNode
   YAMLSeq    : List YAMLNode -> YAMLNode
-  YAMLMap    : (SortedMap String YAMLNode) -> YAMLNode
+  YAMLMap    : List (YAMLNode, YAMLNode) -> YAMLNode
   -- Documents
   YAMLDoc    : List (String, String) -> YAMLNode -> YAMLNode
 
@@ -59,9 +59,9 @@ instance Show YAMLNode where
   show (YAMLScalar s) = "!!str " ++ show (normaliseLiterals s)
   show (YAMLSeq ys)   = "!!seq " ++ show ys
   show (YAMLMap ys)   = "!!map " ++ "{" ++
-      unwords (intersperse "," (map showKV $ SortedMap.toList ys))++ "}"
+      unwords (intersperse "," (map showKV ys))++ "}"
      where
-       showKV : (String, YAMLNode) -> String
+       showKV : (YAMLNode, YAMLNode) -> String
        showKV (k,v) = show k ++ " : " ++ show v
   -- Documents
   show (YAMLDoc _ x) = "%YAML 1.2\n---\n" ++ show x ++ "\n...\n"
@@ -70,10 +70,7 @@ instance Show YAMLNode where
 
 -- [ Values ]
 yamlString : Parser YAMLNode
-yamlString = do
-    ws <- some (lexeme word)
-    pure $ YAMLString $ unwords ws
-  <?> "YAML String"
+yamlString = map YAMLString word <?> "YAML String"
 
 yamlNull : Parser YAMLNode
 yamlNull = token "null" >! return YAMLNull <?> "YAML Null"
@@ -103,50 +100,74 @@ yamlQuotedScalar = yamlQuoteGen '\'' <|> yamlQuoteGen '\"' <?> "YAML Qoted Scala
     yamlQuoteGen : Char -> Parser YAMLNode
     yamlQuoteGen c = do
         ws <- literallyBetween c
+        space
         pure $ YAMLScalar $ ws
       <?> "YAML Scalar General"
 
+yamlFlowValue : Parser YAMLNode
+yamlFlowValue = yamlNull <|> yamlBool <|> yamlNum
+            <|> yamlQuotedScalar <|> yamlStrs
+             <?> "YAML Primitives"
+  where
+    yamlStrs = do
+      ws <- some $ lexeme word
+      pure $ YAMLString $ unwords ws
+
 -- [ Nodes ]
-mutual
-  yamlSeqInline : Parser YAMLNode
-  yamlSeqInline = do
-    xs <- brackets (commaSep (lexeme yamlValue)) <?> "YAML Inline Sequence"
+
+yamlFlowSeq : Parser YAMLNode
+yamlFlowSeq = do
+    xs <- brackets (commaSep (lexeme yamlFlowValue))
+    space
     pure $ YAMLSeq xs
+   <?> "YAML Flow Sequence"
 
-  yamlKVPair : Parser (String, YAMLNode)
-  yamlKVPair = do
-     key <- (some $ lexeme word)
-     colon
-     value <- yamlValue
-     pure $ (unwords key, value)
-    <?> "YAML KV Pair Flow"
+yamlKVPair : Parser (YAMLNode, YAMLNode)
+yamlKVPair = do
+   key <- yamlString
+   colon
+   value <- yamlFlowValue
+   pure $ (key, value)
+  <?> "YAML KV Pair Flow"
 
-  yamlMap : Parser YAMLNode
-  yamlMap = do
-      xs <- braces (commaSep (yamlKVPair <$ space)) <?> "YAML Map"
-      pure $ YAMLMap $ fromList xs
-    <?> "YAML Map FLow"
+yamlFlowMap : Parser YAMLNode
+yamlFlowMap = do
+    xs <- braces (commaSep (lexeme yamlKVPair))
+    space
+    pure $ YAMLMap xs
+  <?> "YAML Flow Map"
 
-  yamlValue : Parser YAMLNode
-  yamlValue = yamlString <|> yamlNull <|> yamlBool <|> yamlNum <|> yamlSeqInline <|> yamlMap <?> "YAMLValue"
+yamlSentance : Parser YAMLNode
+yamlSentance = do
+  ws <- manyTill (space $> word) eol
+  pure $ YAMLString $ unwords ws
 
-yamlSeqList : Parser YAMLNode
-yamlSeqList = do
-  xs <- some (token "-" $!> yamlValue <$ space ) <?> "YAML List Sequence"
-  pure $ YAMLSeq xs
+-- ------------------------------------------------------------------ [ Blocks ]
 
-yamlBlockKVPair : Parser (String, YAMLNode)
+yamlObject : Parser YAMLNode
+yamlObject = yamlNull <|> yamlBool <|> yamlNum <|> yamlQuotedScalar
+         <|> yamlSentance <|> yamlFlowSeq <|> yamlFlowMap
+         <?> "YAMLValue"
+
+yamlBlockSeq : Parser YAMLNode
+yamlBlockSeq = do
+    xs <- some (token "-" $!> yamlObject <$ space)
+    pure $ YAMLSeq xs
+  <?> "YAML List Sequence"
+
+yamlBlockKVPair : Parser (YAMLNode, YAMLNode)
 yamlBlockKVPair = do
-    key <- manyTill word colon
-    eol
-    value <- yamlValue
-    pure $ ((unwords key), value)
+    key <- yamlString
+    colon
+    space
+    value <- yamlObject
+    pure $ (key, value)
   <?> "YAML Block KV Pair"
 
-yamlMapBlock : Parser YAMLNode
-yamlMapBlock = do
+yamlBlockMap : Parser YAMLNode
+yamlBlockMap = do
     xs <- some (yamlBlockKVPair <$ space)
-    pure $ YAMLMap $ fromList xs
+    pure $ YAMLMap xs
   <?> "Map Block"
 
 yamlDirective : Parser (String, String)
@@ -158,6 +179,13 @@ yamlDirective = do
     pure $ (k, pack v)
   <?> "YAML DIrective"
 
+
+||| This does not recognise:
+|||  + keep or strip options
+|||  + indent options
+|||  + Inline Comments.
+|||  + Scalar Blocks
+|||  + Complext Block Map and Block Seq, these only take flow nodes.
 public
 parseYAMLDoc : Parser YAMLNode
 parseYAMLDoc = do
@@ -168,17 +196,36 @@ parseYAMLDoc = do
     pure $ YAMLDoc ds b
    <?> "YAML Document"
   where
-    body = yamlMapBlock <|> yamlSeqList
+    body = yamlBlockMap <|> yamlBlockSeq
 
+||| This does not recognise:
+|||  + keep or strip options
+|||  + indent options
+|||  + Inline Comments.
+|||  + Scalar Blocks
+|||  + Complext Map and Seq Blocks
 public
 parseYAMLStream : Parser (List YAMLNode)
 parseYAMLStream = some parseYAMLDoc
 
 -- -------------------------------------------------------------------- [ Read ]
+
+||| This does not recognise:
+|||  + keep or strip options
+|||  + indent options
+|||  + Inline Comments.
+|||  + Scalar Blocks
+|||  + Complext Map and Seq Blocks
 public
 readYAMLConfig : String -> {[FILE_IO ()]} Eff (Either String YAMLNode)
 readYAMLConfig = readConfigFile parseYAMLDoc
 
+||| This does not recognise:
+|||  + keep or strip options
+|||  + indent options
+|||  + Inline Comments.
+|||  + Scalar Blocks
+|||  + Complext Map and Seq Blocks
 public
 readYAMLStream : String -> {[FILE_IO ()]} Eff (Either String (List YAMLNode))
 readYAMLStream = readConfigFile parseYAMLStream
@@ -196,11 +243,5 @@ readYAMLStream = readConfigFile parseYAMLStream
 
 {-
 
-||| This does not recognise:
-|||  + keep or strip options
-|||  + indent options
-|||  + Inline Comments.
-|||  + Scalar BLocks
-||| + Scalar blocks must end with two EOL.
 -}
 -- --------------------------------------------------------------------- [ EOF ]
