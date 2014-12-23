@@ -11,7 +11,6 @@ import Lightyear.Core
 import Lightyear.Combinators
 import Lightyear.Strings
 
-import Data.HVect
 import Data.SortedMap
 
 import Config.Parse.Common
