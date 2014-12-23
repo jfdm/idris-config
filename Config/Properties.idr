@@ -22,17 +22,11 @@ import Config.Parse.Reader
 -- ------------------------------------------------------------------- [ Model ]
 public
 data Property = PropFile (List Property)
-              | PropComment String
               | PropEntry String String
 
 -- ------------------------------------------------------------------ [ Parser ]
-comment : Parser Property
-comment = do
-      xs <- body
-      pure $ PropComment xs
-    <?> "Property Comments"
-  where
-    body = commentLine "#" <|> commentLine "!"
+propComment : Parser ()
+propComment = comment "#" <|> comment "!" <?> "Property Comments"
 
 genKVpair : String -> Parser Property
 genKVpair s = do
@@ -44,7 +38,7 @@ kvpair : Parser Property
 kvpair = genKVpair "=" <|> genKVpair ":"
 
 propElem : Parser Property
-propElem = kvpair <|> comment <?> "Property Element"
+propElem = propComment $> kvpair <?> "Property Element"
 
 public
 parseProperties : Parser Property

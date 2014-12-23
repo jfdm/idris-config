@@ -16,10 +16,11 @@ import Data.SortedMap
 
 import Config.JSON
 import Config.YAML
+import COnfig.INI
 
 configMain : String -> {[STDIO, FILE_IO ()]} Eff ()
 configMain fname = with Effects do
-    d <- readYAMLConfig fname
+    d <- readINIConfig fname
     case d of
       Left err  => putStrLn $ err
       Right res => do

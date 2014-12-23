@@ -28,13 +28,18 @@ word = map pack (some $ satisfy isAlphaNum) <?> "Word"
 literallyBetween : Char -> Parser String
 literallyBetween c = map pack $ between (char c) (char c) (some (satisfy (/= c)))
 
-manyTill : Monad m => ParserT m str a
-                   -> ParserT m str b
-                   -> ParserT m str (List a)
+manyTill : Monad m => ParserT m String a
+                   -> ParserT m String b
+                   -> ParserT m String (List a)
 manyTill p end = scan
   where
     scan = do { end; return List.Nil } <|>
            do { x <- p; xs <- scan; return (x::xs)}
+
+comment : Monad m => String -> ParserT m String ()
+comment str = do
+    skip $ string str $> (manyTill (satisfy (const True)) (satisfy (== '\n')))
+   <?> unwords ["Comment with char", str]
 
 -- ------------------------------------------------------------- [ Hex Numbers ]
 -- Borrowed from Lightyear JSON Examples

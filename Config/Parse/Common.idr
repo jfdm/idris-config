@@ -15,15 +15,6 @@ import Config.Parse.Utils
 
 %access public
 
-commentLine : String -> Parser String
-commentLine str = do
-    token str $!> do
-      ws <- manyTill anyChar eol
-      space
-      pure $ pack ws
-  <?> unwords ["Comment with char", str]
-
-
 keyvalue : String
          -> Parser String
          -> Parser (String, String)

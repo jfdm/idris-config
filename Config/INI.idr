@@ -21,18 +21,17 @@ import Config.Parse.Reader
 
 public
 data INIElem = INIFile (List INIElem)
-             | INIComment String
              | INIEntry String String
              | INISection String (List INIElem)
 
+instance Show INIElem where
+  show (INIFile is)   = show is
+  show (INIEntry k v) = show k ++ " = " ++ show v ++ "\n"
+  show (INISection t kvs) = "[" ++ t ++ "]\n" ++ show kvs
+
 -- ------------------------------------------------------------------ [ Parser ]
-comment : Parser INIElem
-comment = do
-      xs <- body
-      pure $ INIComment xs
-    <?> "INI Comments"
-  where
-    body = commentLine ";" <|> commentLine "#"
+iniComment : Monad m => ParserT m String ()
+iniComment = comment ";" <|> comment "#" <?> "INI Comments"
 
 kvpair : Parser INIElem
 kvpair = do
@@ -47,15 +46,15 @@ section = do
       pure $ INISection name is
     <?> "Section"
   where
-    body = comment <|> kvpair <?> "INI Section Body"
+    body = kvpair <?> "INI Section Body"
 
 iniElem : Parser INIElem
-iniElem = comment <|> kvpair <|> section <?> "INI Elememnt"
+iniElem = kvpair <|> section <?> "INI Elememnt"
 
 public
 parseINI : Parser INIElem
 parseINI = do
-    es <- some (space $> iniElem) <$ space
+    es <- some (iniComment $> space $> iniElem) <$ space
     pure $ INIFile es
   <?> "INI File"
 
