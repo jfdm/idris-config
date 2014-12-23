@@ -1,0 +1,13 @@
+#+TITLE: Idris Config
+
+Parsers for various configuration file formats.
+
+* Supported Parsers
++ INI
++ Properties
++ JSON
++ YAML
+
+* Feature coverage.
+
+Please note that the parsers are not feature complete, and may break on fully featured configuration files.
