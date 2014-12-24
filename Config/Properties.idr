@@ -5,13 +5,18 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.Properties
 
-import Control.Monad.Identity
+import public Effects
+import public Effect.File
+import public Effect.Stdio
+import public Effect.Exception
 
-import Data.SortedMap
+import public Control.Monad.Identity
 
-import Lightyear.Core
-import Lightyear.Combinators
-import Lightyear.Strings
+import public Data.SortedMap
+
+import public Lightyear.Core
+import public Lightyear.Combinators
+import public Lightyear.Strings
 
 import Config.Parse.Utils
 import Config.Parse.Common

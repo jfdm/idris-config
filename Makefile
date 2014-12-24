@@ -2,13 +2,9 @@
 
 IDRIS := idris
 LIB   := config
-BIN   := configbin
 OPTS  :=
 
 .PHONY: clean lib
-
-exe: install
-	${IDRIS} ${OPTS} --build ${BIN}.ipkg
 
 install: lib
 	${IDRIS} ${OPTS} --install ${LIB}.ipkg
@@ -26,9 +22,10 @@ clobber : clean
 check: clobber
 	${IDRIS} --checkpkg ${LIB}.ipkg
 
-test :
-	echo "Not yet, tests are old and broken."
-	#(cd tests; bash runtests.sh)
+test: install
+	$(MAKE) -C test build
+	(cd test; ./a.out)
+	$(MAKE) -C test clean
 
 doc:
 	${IDRIS} --mkdoc ${LIB}.ipkg

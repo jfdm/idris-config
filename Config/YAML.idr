@@ -5,19 +5,24 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.YAML
 
-import Control.Monad.Identity
+import public Effects
+import public Effect.File
+import public Effect.Stdio
+import public Effect.Exception
 
-import Lightyear.Core
-import Lightyear.Combinators
-import Lightyear.Strings
+import public Control.Monad.Identity
 
-import Data.SortedMap
+import public Lightyear.Core
+import public Lightyear.Combinators
+import public Lightyear.Strings
+
+import public Data.SortedMap
 
 import Config.Parse.Common
 import Config.Parse.Utils
 import Config.Parse.Reader
 
-%access public
+%access private
 
 -- ------------------------------------------------------------------- [ Model ]
 
@@ -229,18 +234,4 @@ public
 readYAMLStream : String -> {[FILE_IO ()]} Eff (Either String (List YAMLNode))
 readYAMLStream = readConfigFile parseYAMLStream
 
--- --------------------------------------------------------------------- [ EOF ]
-
-
-{-
-% Many Directives
---- # Begin Document
-
-
-... # End DOcument
--}
-
-{-
-
--}
 -- --------------------------------------------------------------------- [ EOF ]

@@ -11,9 +11,9 @@ import Lightyear.Core
 import Lightyear.Combinators
 import Lightyear.Strings
 
-import public Effects
-import public Effect.File
-import public Effect.StdIO
+import Effects
+import Effect.File
+import Effect.StdIO
 
 %access private
 

@@ -5,11 +5,16 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.INI
 
-import Control.Monad.Identity
+import public Effects
+import public Effect.File
+import public Effect.Stdio
+import public Effect.Exception
 
-import Lightyear.Core
-import Lightyear.Combinators
-import Lightyear.Strings
+import public Control.Monad.Identity
+
+import public Lightyear.Core
+import public Lightyear.Combinators
+import public Lightyear.Strings
 
 import Config.Parse.Utils
 import Config.Parse.Common
