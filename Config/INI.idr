@@ -11,8 +11,8 @@ import Lightyear.Core
 import Lightyear.Combinators
 import Lightyear.Strings
 
-import Config.Parse.Common
 import Config.Parse.Utils
+import Config.Parse.Common
 import Config.Parse.Reader
 
 %access private
@@ -30,12 +30,16 @@ instance Show INIElem where
   show (INISection t kvs) = "[" ++ t ++ "]\n" ++ show kvs
 
 -- ------------------------------------------------------------------ [ Parser ]
+
 iniComment : Monad m => ParserT m String ()
-iniComment = comment ";" <|> comment "#" <?> "INI Comments"
+iniComment = comment ";" <|> comment "#"
+
+iniSpace : Monad m => ParserT m String ()
+iniSpace = langSpace iniComment <?> "INI Space"
 
 kvpair : Parser INIElem
 kvpair = do
-    (k,v) <- keyvalue "=" (map pack $ manyTill anyChar eol)
+    (k,v) <- keyvalue "=" (map pack $ manyTill (anyChar) (eol <|> iniComment))
     pure $ INIEntry k v
   <?> "INI KVPair"
 
@@ -46,7 +50,7 @@ section = do
       pure $ INISection name is
     <?> "Section"
   where
-    body = kvpair <?> "INI Section Body"
+    body = iniSpace $> kvpair <?> "INI Section Body"
 
 iniElem : Parser INIElem
 iniElem = kvpair <|> section <?> "INI Elememnt"
@@ -54,7 +58,7 @@ iniElem = kvpair <|> section <?> "INI Elememnt"
 public
 parseINI : Parser INIElem
 parseINI = do
-    es <- some (iniComment $> space $> iniElem) <$ space
+    es <- some (iniSpace $> iniElem)
     pure $ INIFile es
   <?> "INI File"
 

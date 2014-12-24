@@ -15,6 +15,9 @@ import Config.Parse.Utils
 
 %access public
 
+langSpace : Monad m => ParserT m String () -> ParserT m String ()
+langSpace p = p <|> space <?> "Space Lang"
+
 keyvalue : String
          -> Parser String
          -> Parser (String, String)

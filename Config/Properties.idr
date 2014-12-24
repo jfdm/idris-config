@@ -13,8 +13,8 @@ import Lightyear.Core
 import Lightyear.Combinators
 import Lightyear.Strings
 
-import Config.Parse.Common
 import Config.Parse.Utils
+import Config.Parse.Common
 import Config.Parse.Reader
 
 %access private
@@ -25,25 +25,25 @@ data Property = PropFile (List Property)
               | PropEntry String String
 
 -- ------------------------------------------------------------------ [ Parser ]
-propComment : Parser ()
+propComment : Monad m => ParserT m String ()
 propComment = comment "#" <|> comment "!" <?> "Property Comments"
+
+propSpace : Monad m => ParserT m String ()
+propSpace = langSpace propComment <?> "Prop Space"
 
 genKVpair : String -> Parser Property
 genKVpair s = do
-    (k,v) <- keyvalue s (map pack $ manyTill anyChar eol)
+    (k,v) <- keyvalue s (map pack $ manyTill anyChar (eol <|> propComment))
     pure $ PropEntry k v
   <?> "Proeprty KVPair"
 
 kvpair : Parser Property
 kvpair = genKVpair "=" <|> genKVpair ":"
 
-propElem : Parser Property
-propElem = propComment $> kvpair <?> "Property Element"
-
 public
 parseProperties : Parser Property
 parseProperties = do
-    es <- some (space $> propElem) <$ space
+    es <- some (propSpace $> kvpair)
     pure $ PropFile es
   <?> "Properties File"
 
