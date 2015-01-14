@@ -2,7 +2,7 @@
 
 Parsers for various configuration file formats.
 
-* Supported Parsers
+* Supported formats.
 + INI
 + Properties
 + JSON
