@@ -9,7 +9,7 @@ module Config.JSON
 
 import public Effects
 import public Effect.File
-import public Effect.Stdio
+import public Effect.StdIO
 import public Effect.Exception
 
 import public Control.Monad.Identity
