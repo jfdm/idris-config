@@ -23,6 +23,7 @@ keyvalue : String
          -> Parser (String, String)
 keyvalue s value = do
     k <- word
+    space
     token s
     v <- value
     space
