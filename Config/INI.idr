@@ -69,7 +69,7 @@ parseINI = do
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readINIConfig : String -> {[FILE_IO ()]} Eff (Either String INIElem)
+readINIConfig : String -> {[EXCEPTION String, FILE_IO ()]} Eff INIElem
 readINIConfig = readConfigFile parseINI
 
 -- --------------------------------------------------------------------- [ EOF ]

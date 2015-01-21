@@ -96,7 +96,7 @@ parseJSONFile = (map JsonArray jsonArray)
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readJSONConfig : String -> {[FILE_IO ()]} Eff (Either String JsonValue)
+readJSONConfig : String -> {[EXCEPTION String, FILE_IO ()]} Eff JsonValue
 readJSONConfig = readConfigFile parseJSONFile
 
 -- --------------------------------------------------------------------- [ EOF ]

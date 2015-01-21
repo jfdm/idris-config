@@ -221,7 +221,7 @@ parseYAMLStream = some parseYAMLDoc
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
 public
-readYAMLConfig : String -> {[FILE_IO ()]} Eff (Either String YAMLNode)
+readYAMLConfig : String -> {[EXCEPTION String, FILE_IO ()]} Eff (YAMLNode)
 readYAMLConfig = readConfigFile parseYAMLDoc
 
 ||| This does not recognise:
@@ -231,7 +231,7 @@ readYAMLConfig = readConfigFile parseYAMLDoc
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
 public
-readYAMLStream : String -> {[FILE_IO ()]} Eff (Either String (List YAMLNode))
+readYAMLStream : String -> {[EXCEPTION String, FILE_IO ()]} Eff $ (List YAMLNode)
 readYAMLStream = readConfigFile parseYAMLStream
 
 -- --------------------------------------------------------------------- [ EOF ]

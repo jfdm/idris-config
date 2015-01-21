@@ -14,6 +14,7 @@ import Lightyear.Strings
 import Effects
 import Effect.File
 import Effect.StdIO
+import Effect.Exception
 
 %access private
 
@@ -26,14 +27,14 @@ readFile = readAcc ""
                      else pure acc
 
 public
-readConfigFile : Parser a -> String -> { [FILE_IO ()] } Eff (Either String a)
+readConfigFile : Parser a -> String -> { [EXCEPTION String, FILE_IO ()] } Eff a
 readConfigFile p f = do
     case !(open f Read) of
       True => do
         src <- readFile
         close
         case parse p src of
-          Left err  => pure $ Left err
-          Right res => pure $ Right res
-      False => pure $ Left "Error"
+          Left err  => raise $ show err
+          Right res => pure res
+      False => raise "Error"
 -- --------------------------------------------------------------------- [ EOF ]

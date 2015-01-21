@@ -54,7 +54,7 @@ parseProperties = do
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readPropertiesConfig : String -> {[FILE_IO ()]} Eff (Either String Property)
+readPropertiesConfig : String -> {[EXCEPTION String, FILE_IO ()]} Eff Property
 readPropertiesConfig = readConfigFile parseProperties
 
 -- --------------------------------------------------------------------- [ EOF ]
