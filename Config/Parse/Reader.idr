@@ -34,7 +34,7 @@ readConfigFile p f = do
         src <- readFile
         close
         case parse p src of
-          Left err  => raise $ show err
+          Left err  => raise err
           Right res => pure res
-      False => raise "Error"
+      False => raise "Unable to read configuration file"
 -- --------------------------------------------------------------------- [ EOF ]
