@@ -6,6 +6,7 @@
 module Utils
 
 import Control.Monad.Identity
+import Data.Fin
 
 import Lightyear.Core
 import Lightyear.Combinators
