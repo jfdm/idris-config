@@ -55,8 +55,8 @@ jsonNumber : Parser Float
 jsonNumber = map scientificToFloat parseScientific <?> "JSON Number"
 
 jsonBool : Parser Bool
-jsonBool  =  (char 't' >! string "rue"  $> return True)
-         <|> (char 'f' >! string "alse" $> return False)
+jsonBool  =  (char 't' >! string "rue"  *> return True)
+         <|> (char 'f' >! string "alse" *> return False)
          <?> "JSON Bool"
 
 jsonNull : Parser ()
@@ -68,7 +68,7 @@ mutual
 
   keyValuePair : Parser (String, JsonValue)
   keyValuePair = do
-      key <- space $> jsonString <$ space
+      key <- space *> jsonString <* space
       colon
       value <- jsonValue
       pure (key, value)
@@ -81,12 +81,12 @@ mutual
   jsonValue' =  (map JsonString jsonString)
             <|> (map JsonNumber jsonNumber)
             <|> (map JsonBool   jsonBool)
-            <|> (pure JsonNull <$ jsonNull)
+            <|> (pure JsonNull <* jsonNull)
             <|>| map JsonArray  jsonArray
             <|>| map JsonObject jsonObject
 
   jsonValue : Parser JsonValue
-  jsonValue = space $> jsonValue' <$ space <?> "JSON Value"
+  jsonValue = space *> jsonValue' <* space <?> "JSON Value"
 
 public
 parseJSONFile : Parser JsonValue

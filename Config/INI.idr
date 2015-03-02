@@ -55,7 +55,7 @@ section = do
       pure $ INISection name is
     <?> "Section"
   where
-    body = iniSpace $> kvpair <?> "INI Section Body"
+    body = iniSpace *> kvpair <?> "INI Section Body"
 
 iniElem : Parser INIElem
 iniElem = kvpair <|> section <?> "INI Elememnt"
@@ -63,7 +63,7 @@ iniElem = kvpair <|> section <?> "INI Elememnt"
 public
 parseINI : Parser INIElem
 parseINI = do
-    es <- some (iniSpace $> iniElem)
+    es <- some (iniSpace *> iniElem)
     pure $ INIFile es
   <?> "INI File"
 

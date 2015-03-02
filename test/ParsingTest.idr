@@ -2,7 +2,7 @@ module ParsingTest
 
 import System
 import Effects
-import Effect.Stdio
+import Effect.StdIO
 import Effect.Exception
 import Effect.System
 

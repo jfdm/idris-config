@@ -48,7 +48,7 @@ kvpair = genKVpair "=" <|> genKVpair ":"
 public
 parseProperties : Parser Property
 parseProperties = do
-    es <- some (propSpace $> kvpair)
+    es <- some (propSpace *> kvpair)
     pure $ PropFile es
   <?> "Properties File"
 

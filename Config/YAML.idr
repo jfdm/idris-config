@@ -143,7 +143,7 @@ yamlFlowMap = do
 
 yamlSentance : Parser YAMLNode
 yamlSentance = do
-  ws <- manyTill (space $> word) eol
+  ws <- manyTill (space *> word) eol
   pure $ YAMLString $ unwords ws
 
 -- ------------------------------------------------------------------ [ Blocks ]
@@ -155,7 +155,7 @@ yamlObject = yamlNull <|> yamlBool <|> yamlNum <|> yamlQuotedScalar
 
 yamlBlockSeq : Parser YAMLNode
 yamlBlockSeq = do
-    xs <- some (token "-" $!> yamlObject <$ space)
+    xs <- some (token "-" *!> yamlObject <* space)
     pure $ YAMLSeq xs
   <?> "YAML List Sequence"
 
@@ -170,7 +170,7 @@ yamlBlockKVPair = do
 
 yamlBlockMap : Parser YAMLNode
 yamlBlockMap = do
-    xs <- some (yamlBlockKVPair <$ space)
+    xs <- some (yamlBlockKVPair <* space)
     pure $ YAMLMap xs
   <?> "Map Block"
 

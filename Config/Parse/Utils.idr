@@ -38,7 +38,7 @@ manyTill p end = scan
 
 comment : Monad m => String -> ParserT m String ()
 comment str = do
-    skip $ string str $> (manyTill (satisfy (const True)) (satisfy (== '\n')))
+    skip $ string str *> (manyTill (satisfy (const True)) (satisfy (== '\n')))
    <?> unwords ["Comment with char", str]
 
 -- ------------------------------------------------------------- [ Hex Numbers ]
