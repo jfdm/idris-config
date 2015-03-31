@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html><head><title>IdrisDoc: Config.YAML</title><link type="text/css" rel="stylesheet" href="../styles.css"></head><body class="namespace"><div class="wrapper"><header><strong>IdrisDoc</strong>: Config.YAML<nav><a href="../index.html">Index</a></nav></header><div class="container"><h1>Config.YAML</h1><dl class="decls"><dt id="Config.YAML.readYAMLStream"><span class="name function" title="Config.YAML.readYAMLStream">readYAMLStream</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><span class="type" title="String">String</span> ->
+<a class="type" title="Effects.Eff" href="Effects.html#Effects.Eff">Eff</a> (<a class="type" title="Prelude.List.List" href="Prelude.List.html#Prelude.List.List">List</a> <a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a>)
+<span class="data" title="[">[</span>(<a class="function" title="Effect.Exception.EXCEPTION" href="Effect.Exception.html#Effect.Exception.EXCEPTION">EXCEPTION</a> <span class="type" title="String">String</span>)<span class="data" title=",">,</span>
+(<a class="function" title="Effect.File.FILE_IO" href="Effect.File.html#Effect.File.FILE_IO">FILE_IO</a> <a class="type" title="Unit" href="[builtins].html#Unit">()</a>)<span class="data" title="]">]</span>
+(\<span class="boundvar" title="">result</span> =>
+<span class="data" title="[">[</span><a class="function" title="Effect.Exception.EXCEPTION" href="Effect.Exception.html#Effect.Exception.EXCEPTION">EXCEPTION</a> <span class="type" title="String">String</span><span class="data" title=",">,</span>
+<a class="function" title="Effect.File.FILE_IO" href="Effect.File.html#Effect.File.FILE_IO">FILE_IO</a> <a class="type" title="Unit" href="[builtins].html#Unit">()</a><span class="data" title="]">]</span>)</span></dt><dd><p>This does not recognise:</p>
+<ul>
+<li>keep or strip options</li>
+<li>indent options</li>
+<li>Inline Comments.</li>
+<li>Scalar Blocks</li>
+<li>Complext Map and Seq Blocks</li>
+</ul>
+</dd><dt id="Config.YAML.readYAMLConfig"><span class="name function" title="Config.YAML.readYAMLConfig">readYAMLConfig</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><span class="type" title="String">String</span> ->
+<a class="type" title="Effects.Eff" href="Effects.html#Effects.Eff">Eff</a> <a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a>
+<span class="data" title="[">[</span>(<a class="function" title="Effect.Exception.EXCEPTION" href="Effect.Exception.html#Effect.Exception.EXCEPTION">EXCEPTION</a> <span class="type" title="String">String</span>)<span class="data" title=",">,</span>
+(<a class="function" title="Effect.File.FILE_IO" href="Effect.File.html#Effect.File.FILE_IO">FILE_IO</a> <a class="type" title="Unit" href="[builtins].html#Unit">()</a>)<span class="data" title="]">]</span>
+(\<span class="boundvar" title="">result</span> =>
+<span class="data" title="[">[</span><a class="function" title="Effect.Exception.EXCEPTION" href="Effect.Exception.html#Effect.Exception.EXCEPTION">EXCEPTION</a> <span class="type" title="String">String</span><span class="data" title=",">,</span>
+<a class="function" title="Effect.File.FILE_IO" href="Effect.File.html#Effect.File.FILE_IO">FILE_IO</a> <a class="type" title="Unit" href="[builtins].html#Unit">()</a><span class="data" title="]">]</span>)</span></dt><dd><p>This does not recognise:</p>
+<ul>
+<li>keep or strip options</li>
+<li>indent options</li>
+<li>Inline Comments.</li>
+<li>Scalar Blocks</li>
+<li>Complext Map and Seq Blocks</li>
+</ul>
+</dd><dt id="Config.YAML.parseYAMLStream"><span class="name function" title="Config.YAML.parseYAMLStream">parseYAMLStream</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="function" title="Lightyear.Strings.Parser" href="Lightyear.Strings.html#Lightyear.Strings.Parser">Parser</a> (<a class="type" title="Prelude.List.List" href="Prelude.List.html#Prelude.List.List">List</a> <a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a>)</span></dt><dd><p>This does not recognise:</p>
+<ul>
+<li>keep or strip options</li>
+<li>indent options</li>
+<li>Inline Comments.</li>
+<li>Scalar Blocks</li>
+<li>Complext Map and Seq Blocks</li>
+</ul>
+</dd><dt id="Config.YAML.parseYAMLDoc"><span class="name function" title="Config.YAML.parseYAMLDoc">parseYAMLDoc</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="function" title="Lightyear.Strings.Parser" href="Lightyear.Strings.html#Lightyear.Strings.Parser">Parser</a> <a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a></span></dt><dd><p>This does not recognise:</p>
+<ul>
+<li>keep or strip options</li>
+<li>indent options</li>
+<li>Inline Comments.</li>
+<li>Scalar Blocks</li>
+<li>Complext Block Map and Block Seq, these only take flow nodes.</li>
+</ul>
+</dd><dt id="Config.YAML.YAMLNode"><span class="word">data&nbsp;</span><span class="name type" title="Config.YAML.YAMLNode">YAMLNode</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><span class="type" title="Type">Type</span></span></dt><dd><p>YAML Documentation representation.</p>
+<p>There is no support for:</p>
+<ul>
+<li>Anchors</li>
+<li>Complex Maps</li>
+<li>Schema's</li>
+<li>User Defined tags</li>
+<li>Interesting Scalar Formats</li>
+</ul>
+<dl class="decls"><dt id="Config.YAML.YAMLNull"><span class="name constructor" title="Config.YAML.YAMLNull">YAMLNull</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a></span></dt><dd></dd><dt id="Config.YAML.YAMLString"><span class="name constructor" title="Config.YAML.YAMLString">YAMLString</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><span class="type" title="String">String</span> ->
+<a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a></span></dt><dd></dd><dt id="Config.YAML.YAMLInt"><span class="name constructor" title="Config.YAML.YAMLInt">YAMLInt</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><span class="type" title="Int">Int</span> ->
+<a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a></span></dt><dd></dd><dt id="Config.YAML.YAMLFloat"><span class="name constructor" title="Config.YAML.YAMLFloat">YAMLFloat</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><span class="type" title="Float">Float</span> ->
+<a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a></span></dt><dd></dd><dt id="Config.YAML.YAMLBool"><span class="name constructor" title="Config.YAML.YAMLBool">YAMLBool</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Bool.Bool" href="Prelude.Bool.html#Prelude.Bool.Bool">Bool</a> ->
+<a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a></span></dt><dd></dd><dt id="Config.YAML.YAMLScalar"><span class="name constructor" title="Config.YAML.YAMLScalar">YAMLScalar</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><span class="type" title="String">String</span> ->
+<a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a></span></dt><dd></dd><dt id="Config.YAML.YAMLSeq"><span class="name constructor" title="Config.YAML.YAMLSeq">YAMLSeq</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.List.List" href="Prelude.List.html#Prelude.List.List">List</a> <a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a> ->
+<a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a></span></dt><dd></dd><dt id="Config.YAML.YAMLMap"><span class="name constructor" title="Config.YAML.YAMLMap">YAMLMap</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.List.List" href="Prelude.List.html#Prelude.List.List">List</a> <a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">(</a><a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">,</a>
+<a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">)</a> ->
+<a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a></span></dt><dd></dd><dt id="Config.YAML.YAMLDoc"><span class="name constructor" title="Config.YAML.YAMLDoc">YAMLDoc</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.List.List" href="Prelude.List.html#Prelude.List.List">List</a> <a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">(</a><span class="type" title="String">String</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">,</a>
+<span class="type" title="String">String</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">)</a> ->
+<a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a> ->
+<a class="type" title="Config.YAML.YAMLNode" href="Config.YAML.html#Config.YAML.YAMLNode">YAMLNode</a></span></dt><dd></dd></dl></dd></dl></div></div><footer>Produced by IdrisDoc version 1.0</footer></body></html>

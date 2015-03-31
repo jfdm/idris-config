@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+<html><head><title>IdrisDoc: Data.SortedMap</title><link type="text/css" rel="stylesheet" href="../styles.css"></head><body class="namespace"><div class="wrapper"><header><strong>IdrisDoc</strong>: Data.SortedMap<nav><a href="../index.html">Index</a></nav></header><div class="container"><h1>Data.SortedMap</h1><dl class="decls"><dt id="Data.SortedMap.treeToList"><span class="name function" title="Data.SortedMap.treeToList">treeToList</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Prelude.List.List" href="Prelude.List.html#Prelude.List.List">List</a> <a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">(</a><span class="implicit boundvar" title="">k</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">,</a>
+<span class="implicit boundvar" title="">v</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">)</a></span></dt><dd></dd><dt id="Data.SortedMap.treeLookup"><span class="name function" title="Data.SortedMap.treeLookup">treeLookup</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Classes.Ord" href="Prelude.Classes.html#Prelude.Classes.Ord">Ord</a> <span class="implicit boundvar" title="">k</span> =>
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Prelude.Maybe.Maybe" href="Prelude.Maybe.html#Prelude.Maybe.Maybe">Maybe</a> <span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.treeInsert&#39;"><span class="name function" title="Data.SortedMap.treeInsert&#39;">treeInsert&#39;</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Classes.Ord" href="Prelude.Classes.html#Prelude.Classes.Ord">Ord</a> <span class="implicit boundvar" title="">k</span> =>
+<span class="implicit boundvar" title="">k</span> ->
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Prelude.Either.Either" href="Prelude.Either.html#Prelude.Either.Either">Either</a> (<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span>)
+<a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">(</a><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">,</a>
+<span class="implicit boundvar" title="">k</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">,</a>
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">)</a></span></dt><dd></dd><dt id="Data.SortedMap.treeInsert"><span class="name function" title="Data.SortedMap.treeInsert">treeInsert</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Classes.Ord" href="Prelude.Classes.html#Prelude.Classes.Ord">Ord</a> <span class="implicit boundvar" title="">k</span> =>
+<span class="implicit boundvar" title="">k</span> ->
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Prelude.Either.Either" href="Prelude.Either.html#Prelude.Either.Either">Either</a> (<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span>)
+(<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>)
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span>)</span></dt><dd></dd><dt id="Data.SortedMap.treeDelete"><span class="name function" title="Data.SortedMap.treeDelete">treeDelete</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Classes.Ord" href="Prelude.Classes.html#Prelude.Classes.Ord">Ord</a> <span class="implicit boundvar" title="">k</span> =>
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Prelude.Either.Either" href="Prelude.Either.html#Prelude.Either.Either">Either</a> (<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span>)
+(<a class="function" title="Data.SortedMap.delType" href="Data.SortedMap.html#Data.SortedMap.delType">delType</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span>)</span></dt><dd></dd><dt id="Data.SortedMap.toList"><span class="name function" title="Data.SortedMap.toList">toList</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.SortedMap" href="Data.SortedMap.html#Data.SortedMap.SortedMap">SortedMap</a> <span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Prelude.List.List" href="Prelude.List.html#Prelude.List.List">List</a> <a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">(</a><span class="implicit boundvar" title="">k</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">,</a>
+<span class="implicit boundvar" title="">v</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">)</a></span></dt><dd></dd><dt id="Data.SortedMap.merge3"><span class="name function" title="Data.SortedMap.merge3">merge3</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>)
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>)
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>))
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.merge2"><span class="name function" title="Data.SortedMap.merge2">merge2</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>)
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>)
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>))
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.merge1"><span class="name function" title="Data.SortedMap.merge1">merge1</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>)
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>)
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>))
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.lookup"><span class="name function" title="Data.SortedMap.lookup">lookup</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Classes.Ord" href="Prelude.Classes.html#Prelude.Classes.Ord">Ord</a> <span class="implicit boundvar" title="">k</span> =>
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.SortedMap" href="Data.SortedMap.html#Data.SortedMap.SortedMap">SortedMap</a> <span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Prelude.Maybe.Maybe" href="Prelude.Maybe.html#Prelude.Maybe.Maybe">Maybe</a> <span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.insert"><span class="name function" title="Data.SortedMap.insert">insert</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Classes.Ord" href="Prelude.Classes.html#Prelude.Classes.Ord">Ord</a> <span class="implicit boundvar" title="">k</span> =>
+<span class="implicit boundvar" title="">k</span> ->
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.SortedMap" href="Data.SortedMap.html#Data.SortedMap.SortedMap">SortedMap</a> <span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.SortedMap" href="Data.SortedMap.html#Data.SortedMap.SortedMap">SortedMap</a> <span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.fromList"><span class="name function" title="Data.SortedMap.fromList">fromList</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Classes.Ord" href="Prelude.Classes.html#Prelude.Classes.Ord">Ord</a> <span class="implicit boundvar" title="">k</span> =>
+<a class="type" title="Prelude.List.List" href="Prelude.List.html#Prelude.List.List">List</a> <a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">(</a><span class="implicit boundvar" title="">k</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">,</a>
+<span class="implicit boundvar" title="">v</span><a class="type" title="Builtins.Pair" href="Builtins.html#Builtins.Pair">)</a> ->
+<a class="type" title="Data.SortedMap.SortedMap" href="Data.SortedMap.html#Data.SortedMap.SortedMap">SortedMap</a> <span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.empty"><span class="name function" title="Data.SortedMap.empty">empty</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.SortedMap" href="Data.SortedMap.html#Data.SortedMap.SortedMap">SortedMap</a> <span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.delete"><span class="name function" title="Data.SortedMap.delete">delete</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Classes.Ord" href="Prelude.Classes.html#Prelude.Classes.Ord">Ord</a> <span class="implicit boundvar" title="">k</span> =>
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.SortedMap" href="Data.SortedMap.html#Data.SortedMap.SortedMap">SortedMap</a> <span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.SortedMap" href="Data.SortedMap.html#Data.SortedMap.SortedMap">SortedMap</a> <span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.delType"><span class="name function" title="Data.SortedMap.delType">delType</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Nat.Nat" href="Prelude.Nat.html#Prelude.Nat.Nat">Nat</a> ->
+<span class="type" title="Type">Type</span> ->
+<span class="type" title="Type">Type</span> ->
+<span class="type" title="Type">Type</span></span></dt><dd></dd><dt id="Data.SortedMap.branch7"><span class="name function" title="Data.SortedMap.branch7">branch7</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>))
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.branch6"><span class="name function" title="Data.SortedMap.branch6">branch6</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>))
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.branch5"><span class="name function" title="Data.SortedMap.branch5">branch5</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>))
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.branch4"><span class="name function" title="Data.SortedMap.branch4">branch4</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>))
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.Tree"><span class="word">data&nbsp;</span><span class="name type" title="Data.SortedMap.Tree">Tree</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Nat.Nat" href="Prelude.Nat.html#Prelude.Nat.Nat">Nat</a> ->
+<span class="type" title="Type">Type</span> ->
+<span class="type" title="Type">Type</span> ->
+<span class="type" title="Type">Type</span></span></dt><dd><dl class="decls"><dt id="Data.SortedMap.Leaf"><span class="name constructor" title="Data.SortedMap.Leaf">Leaf</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><span class="implicit boundvar" title="">k</span> ->
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="data" title="0">0</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.Branch2"><span class="name constructor" title="Data.SortedMap.Branch2">Branch2</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>)
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.Branch3"><span class="name constructor" title="Data.SortedMap.Branch3">Branch3</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<span class="implicit boundvar" title="">k</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="implicit boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> (<a class="constructor" title="Prelude.Nat.S" href="Prelude.Nat.html#Prelude.Nat.S">S</a> <span class="implicit boundvar" title="">n</span>)
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd></dl></dd><dt id="Data.SortedMap.SortedMap"><span class="word">data&nbsp;</span><span class="name type" title="Data.SortedMap.SortedMap">SortedMap</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><span class="type" title="Type">Type</span> ->
+<span class="type" title="Type">Type</span> ->
+<span class="type" title="Type">Type</span></span></dt><dd><dl class="decls"><dt id="Data.SortedMap.Empty"><span class="name constructor" title="Data.SortedMap.Empty">Empty</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Data.SortedMap.SortedMap" href="Data.SortedMap.html#Data.SortedMap.SortedMap">SortedMap</a> <span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd><dt id="Data.SortedMap.M"><span class="name constructor" title="Data.SortedMap.M">M</span><span class="word">&nbsp;:&nbsp;</span><span class="signature">(<span class="boundvar" title="">n</span> : <a class="type" title="Prelude.Nat.Nat" href="Prelude.Nat.html#Prelude.Nat.Nat">Nat</a>) ->
+<a class="type" title="Data.SortedMap.Tree" href="Data.SortedMap.html#Data.SortedMap.Tree">Tree</a> <span class="boundvar" title="">n</span>
+<span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span> ->
+<a class="type" title="Data.SortedMap.SortedMap" href="Data.SortedMap.html#Data.SortedMap.SortedMap">SortedMap</a> <span class="implicit boundvar" title="">k</span>
+<span class="implicit boundvar" title="">v</span></span></dt><dd></dd></dl></dd></dl></div></div><footer>Produced by IdrisDoc version 1.0</footer></body></html>

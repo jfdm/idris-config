@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html><head><title>IdrisDoc: Prelude.Monad</title><link type="text/css" rel="stylesheet" href="../styles.css"></head><body class="namespace"><div class="wrapper"><header><strong>IdrisDoc</strong>: Prelude.Monad<nav><a href="../index.html">Index</a></nav></header><div class="container"><h1>Prelude.Monad</h1><dl class="decls"><dt id="Prelude.Monad.return"><span class="name function" title="Prelude.Monad.return">return</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Monad.Monad" href="Prelude.Monad.html#Prelude.Monad.Monad">Monad</a> <span class="implicit boundvar" title="">m</span> =>
+<span class="implicit boundvar" title="">a</span> ->
+<span class="implicit boundvar" title="">m</span> <span class="implicit boundvar" title="">a</span></span></dt><dd><p>For compatibility with Haskell. Note that monads are <strong>not</strong> free to<br />
+define <code>return</code> and <code>pure</code> differently!</p>
+</dd><dt id="Prelude.Monad.flatten"><span class="name function" title="Prelude.Monad.flatten">flatten</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Monad.Monad" href="Prelude.Monad.html#Prelude.Monad.Monad">Monad</a> <span class="implicit boundvar" title="">m</span> =>
+<span class="implicit boundvar" title="">m</span> (<span class="implicit boundvar" title="">m</span> <span class="implicit boundvar" title="">a</span>) ->
+<span class="implicit boundvar" title="">m</span> <span class="implicit boundvar" title="">a</span></span></dt><dd><p>Also called <code>join</code> or mu</p>
+</dd><dt id="Prelude.Monad.Monad"><span class="word">class&nbsp;</span><span class="name type" title="Prelude.Monad.Monad">Monad</span><span class="signature">&nbsp;</span></dt><dd><dl class="decls"><dt id="Prelude.Monad.&gt;&gt;="><span class="name function" title="Prelude.Monad.&gt;&gt;=">(&gt;&gt;=)</span><span class="word">&nbsp;:&nbsp;</span><span class="signature"><a class="type" title="Prelude.Monad.Monad" href="Prelude.Monad.html#Prelude.Monad.Monad">Monad</a> <span class="implicit boundvar" title="">m</span> =>
+<span class="implicit boundvar" title="">m</span> <span class="implicit boundvar" title="">a</span> ->
+(<span class="implicit boundvar" title="">a</span> ->
+<span class="implicit boundvar" title="">m</span> <span class="implicit boundvar" title="">b</span>) ->
+<span class="implicit boundvar" title="">m</span> <span class="implicit boundvar" title="">b</span></span></dt><dd><dl><dt class="fixity">Fixity</dt><dd class="fixity" title="infixl 5">Left associative, precedence 5</dd></dl></dd></dl></dd></dl></div></div><footer>Produced by IdrisDoc version 1.0</footer></body></html>
