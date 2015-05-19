@@ -16,8 +16,10 @@ import Lightyear.Strings
 -- ------------------------------------------------------------------- [ Stuff ]
 -- These should be merged into Lightyear
 
+||| EOL
 eol : Parser ()
-eol = char '\n'
+eol = char '\n' *> return () <?> "eol"
+
 
 anyChar : Parser Char
 anyChar = satisfy (const True)
@@ -80,10 +82,10 @@ specialChar = do
 -- Borrowed from Lightyear JSON Examples
 -- inspired by Haskell's Data.Scientific module
 
-record Scientific : Type where
-  MkScientific : (coefficient : Integer)
-                 -> (exponent : Integer)
-                 -> Scientific
+record Scientific where
+  constructor MkScientific
+  coefficient : Integer
+  exponent : Integer
 
 scientificToFloat : Scientific -> Float
 scientificToFloat (MkScientific c e) = fromInteger c * exp
