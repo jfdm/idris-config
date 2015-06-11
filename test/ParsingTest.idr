@@ -1,18 +1,16 @@
-module ParsingTest
+module Test.ParsingTest
 
 import System
+
 import Effects
 import Effect.StdIO
 import Effect.Exception
 import Effect.System
 
-import public Control.Monad.Identity
-
-import public Lightyear.Core
-import public Lightyear.Combinators
+import public Lightyear
 import public Lightyear.Strings
 
-import TestRunner
+import Test.TestRunner
 
 -- ----------------------------------------------------------- [ Parsing Tests ]
 

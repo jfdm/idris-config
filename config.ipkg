@@ -10,3 +10,9 @@ modules = Config.Parse.Utils
         , Config.Properties
         , Config.JSON
         , Config.YAML
+
+        , Test.ParsingTest
+        , Test.TestRunner
+        , Test.Main
+
+tests = Test.Main.runTests

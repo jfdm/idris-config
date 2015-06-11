@@ -1,8 +1,0 @@
-package test
-
-opts = "-p lightyear -p effects -p config"
-
-modules = Main, TestRunner, ParsingTest
-
-executable = a.out
-main = Main

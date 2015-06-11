@@ -5,7 +5,7 @@
 -- Copyright   : (c) Jan de Muijnck-Hughes
 -- License     : see LICENSE
 -- --------------------------------------------------------------------- [ EOH ]
-module TestRunner
+module Test.TestRunner
 
 import public Effects
 import public Effect.StdIO

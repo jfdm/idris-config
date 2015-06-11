@@ -22,10 +22,8 @@ clobber : clean
 check: clobber
 	${IDRIS} --checkpkg ${LIB}.ipkg
 
-test: install
-	$(MAKE) -C test build
-	(cd test; ./a.out)
-	$(MAKE) -C test clean
+test:
+	${IDRIS} --testpkg ${LIB}.ipkg
 
 doc:
 	${IDRIS} --mkdoc ${LIB}.ipkg

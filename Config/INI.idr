@@ -10,10 +10,7 @@ import public Effect.File
 import public Effect.StdIO
 import public Effect.Exception
 
-import public Control.Monad.Identity
-
-import public Lightyear.Core
-import public Lightyear.Combinators
+import public Lightyear
 import public Lightyear.Strings
 
 import Config.Parse.Utils
@@ -69,7 +66,7 @@ parseINI = do
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readINIConfig : String -> {[EXCEPTION String, FILE_IO ()]} Eff INIElem
+readINIConfig : String -> Eff INIElem [EXCEPTION String, FILE_IO ()]
 readINIConfig = readConfigFile parseINI
 
 -- --------------------------------------------------------------------- [ EOF ]

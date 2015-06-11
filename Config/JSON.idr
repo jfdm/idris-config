@@ -12,10 +12,7 @@ import public Effect.File
 import public Effect.StdIO
 import public Effect.Exception
 
-import public Control.Monad.Identity
-
-import public Lightyear.Core
-import public Lightyear.Combinators
+import public Lightyear
 import public Lightyear.Strings
 
 import public Data.SortedMap
