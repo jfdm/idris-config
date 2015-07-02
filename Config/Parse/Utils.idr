@@ -35,6 +35,7 @@ manyTill : Monad m => ParserT m String a
                    -> ParserT m String (List a)
 manyTill p end = scan
   where
+    scan : Monad m => ParserT m String (List a)
     scan = do { end; return List.Nil } <|>
            do { x <- p; xs <- scan; return (x::xs)}
 

@@ -52,6 +52,7 @@ section = do
       pure $ INISection name is
     <?> "Section"
   where
+    body : Parser INIElem
     body = iniSpace *> kvpair <?> "INI Section Body"
 
 iniElem : Parser INIElem
