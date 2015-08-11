@@ -12,10 +12,9 @@ import public Effect.File
 import public Effect.StdIO
 import public Effect.Exception
 
+import public Data.SortedMap
 import public Lightyear
 import public Lightyear.Strings
-
-import public Data.SortedMap
 
 import Config.Parse.Common
 import Config.Parse.Utils
@@ -24,6 +23,7 @@ import Config.Parse.Reader
 %access private
 
 -- ------------------------------------------------------------------- [ Model ]
+
 public
 data JsonValue = JsonString String
                | JsonNumber Float
@@ -91,9 +91,21 @@ parseJSONFile = (map JsonArray jsonArray)
             <|> (map JsonObject jsonObject)
             <?> "JSON Files"
 
+
+
+public
+toString : JsonValue -> String
+toString doc = show doc
+
+public
+fromString : String -> Either String JsonValue
+fromString str = parse parseJSONFile str
+
 -- -------------------------------------------------------------------- [ Read ]
 public
 readJSONConfig : String -> {[EXCEPTION String, FILE_IO ()]} Eff JsonValue
 readJSONConfig = readConfigFile parseJSONFile
+
+-- saveJSONConfig
 
 -- --------------------------------------------------------------------- [ EOF ]

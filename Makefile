@@ -4,7 +4,7 @@ IDRIS := idris
 LIB   := config
 OPTS  :=
 
-.PHONY: clean lib
+.PHONY: clean lib install clobber check test doc
 
 install: lib
 	${IDRIS} ${OPTS} --install ${LIB}.ipkg
