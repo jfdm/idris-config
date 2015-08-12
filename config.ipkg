@@ -11,6 +11,10 @@ modules = Config.Parse.Utils
         , Config.JSON
         , Config.YAML
 
-        , Config.JSON.Test
+        , Config.Test.JSON
+        , Config.Test.YAML
+        , Config.Test.INI
 
-tests = Config.JSON.Test.runTests
+tests = Config.Test.JSON.runTests
+      , Config.Test.YAML.runTests
+      , Config.Test.INI.runTests
