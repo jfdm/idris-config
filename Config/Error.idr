@@ -13,7 +13,7 @@ data ConfigError : Type where
   FileNotFound : String -> ConfigError
 
 instance Show ConfigError where
-  show (ParseError err) = unlines ["Parse Error", err]
+  show (ParseError err)     = unlines ["Parse Error", err]
   show (FileNotFound fname) = unwords ["File", show fname, "Not Found"]
 
 
