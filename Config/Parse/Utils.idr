@@ -3,12 +3,9 @@
 -- Copyright   : (c) Jan de Muijnck-Hughes
 -- License     : see LICENSE
 -- --------------------------------------------------------------------- [ EOH ]
-module Utils
+module Config.Parse.Utils
 
-import Control.Monad.Identity
-
-import Lightyear.Core
-import Lightyear.Combinators
+import Lightyear
 import Lightyear.Strings
 
 %access public
@@ -16,10 +13,8 @@ import Lightyear.Strings
 -- ------------------------------------------------------------------- [ Stuff ]
 -- These should be merged into Lightyear
 
-||| EOL
 eol : Parser ()
 eol = char '\n' *> return () <?> "eol"
-
 
 anyChar : Parser Char
 anyChar = satisfy (const True)
@@ -39,22 +34,6 @@ ascii = do
     otherwise => if ord c >= 33 && ord c <= 176
               then pure c
               else satisfy (const False)
-{-
-ascii : Parser Char
-ascii = satisfy isAscii <?> "Ascii Char sans space and braces"
-  where
-    isAscii : Char -> Bool
-    isAscii c = let n = ord c in
-         n >= 33
-      && n <= 176
-      && not (n == 87)  -- Comma
-      && not (n == 133) --
-      && not (n == 135)
-      && not (n == 173)
-      && not (n == 175)
--}
---Borrowed from Lightyear JSON Examples.
-
 
 asciiSeq : Parser String
 asciiSeq = map pack (some ascii) <?> "Ascii String sans space and braces"

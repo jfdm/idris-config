@@ -9,7 +9,7 @@ module Config.JSON
 
 import public Config.Effs
 
-import public Data.SortedMap
+import public Data.AVL.Dict
 
 import Lightyear
 import Lightyear.Strings
@@ -28,7 +28,7 @@ data JsonValue = JsonString String
                | JsonBool Bool
                | JsonNull
                | JsonArray (List JsonValue)
-               | JsonObject (SortedMap String JsonValue)
+               | JsonObject (Dict String JsonValue)
 
 instance Show JsonValue where
   show (JsonString s)   = show s
@@ -38,7 +38,7 @@ instance Show JsonValue where
   show  JsonNull        = "null"
   show (JsonArray  xs)  = show xs
   show (JsonObject xs)  =
-      "{" ++ unwords (intersperse "," (map fmtItem $ SortedMap.toList xs)) ++ "}"
+      "{" ++ unwords (intersperse "," (map fmtItem $ Dict.toList xs)) ++ "}"
     where
       fmtItem (k, v) = show k ++ " : " ++ show v
 
@@ -69,7 +69,7 @@ mutual
       pure (key, value)
     <?> "JSON KV Pair"
 
-  jsonObject : Parser (SortedMap String JsonValue)
+  jsonObject : Parser (Dict String JsonValue)
   jsonObject = map fromList $ braces (commaSep (keyValuePair)) <?> "JSON Object"
 
   jsonValue' : Parser JsonValue

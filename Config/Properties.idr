@@ -6,7 +6,6 @@
 module Config.Properties
 
 import public Config.Effs
-import public Data.SortedMap
 
 import Lightyear
 import Lightyear.Strings
