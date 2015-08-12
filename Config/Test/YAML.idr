@@ -52,8 +52,18 @@ yamlTest2 = parseTestB (Just "YAML Test 2") parseYAMLDoc
 - step: *id002
 """
 
+yamlTest3 : IO ()
+yamlTest3 = canParse (Just "YAML Test 3") parseYAMLDoc
+    """%YAML 1.2
+---
+pattern: {problem: file.p, solution: file.p}
+pattern: {problem: file.p, solution: file.p}
+...
+    """
+
 runTests : IO ()
 runTests = do
   yamlTest1
   yamlTest2
+  yamlTest3
 -- --------------------------------------------------------------------- [ EOF ]

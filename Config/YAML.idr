@@ -127,7 +127,7 @@ yamlFlowValue = yamlNull <|> yamlBool <|> yamlNum
   where
     yamlStrs : Parser YAMLNode
     yamlStrs = do
-      ws <- some $ lexeme word
+      ws <- some $ lexeme asciiSeq
       pure $ YAMLString $ unwords ws
 
 -- [ Nodes ]

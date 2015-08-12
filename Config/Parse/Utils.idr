@@ -27,6 +27,38 @@ anyChar = satisfy (const True)
 word : Parser String
 word = map pack (some $ satisfy isAlphaNum) <?> "Word"
 
+ascii : Parser Char
+ascii = do
+  c <- satisfy (const True)
+  case c of
+    ','       => satisfy (const False)
+    '{'       => satisfy (const False)
+    '}'       => satisfy (const False)
+    '['       => satisfy (const False)
+    ']'       => satisfy (const False)
+    otherwise => if ord c >= 33 && ord c <= 176
+              then pure c
+              else satisfy (const False)
+{-
+ascii : Parser Char
+ascii = satisfy isAscii <?> "Ascii Char sans space and braces"
+  where
+    isAscii : Char -> Bool
+    isAscii c = let n = ord c in
+         n >= 33
+      && n <= 176
+      && not (n == 87)  -- Comma
+      && not (n == 133) --
+      && not (n == 135)
+      && not (n == 173)
+      && not (n == 175)
+-}
+--Borrowed from Lightyear JSON Examples.
+
+
+asciiSeq : Parser String
+asciiSeq = map pack (some ascii) <?> "Ascii String sans space and braces"
+
 literallyBetween : Char -> Parser String
 literallyBetween c = map pack $ between (char c) (char c) (some (satisfy (/= c)))
 
