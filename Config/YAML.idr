@@ -5,18 +5,20 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.YAML
 
-import public Config.Effs
-
 import public Lightyear
 import public Lightyear.Strings
 
 import public Data.SortedMap
 
+import public Config.Effs
+
 import Config.Parse.Common
 import Config.Parse.Utils
 import Config.Parse.Reader
 
-%access private
+import public Config.Error
+
+%access public
 
 -- ------------------------------------------------------------------- [ Model ]
 
@@ -28,7 +30,6 @@ import Config.Parse.Reader
 ||| + Schema's
 ||| + User Defined tags
 ||| + Interesting Scalar Formats
-public
 data YAMLNode : Type where
   -- Value Types
   YAMLNull   : YAMLNode
@@ -43,6 +44,7 @@ data YAMLNode : Type where
   -- Documents
   YAMLDoc    : List (String, String) -> YAMLNode -> YAMLNode
 
+private
 normaliseLiterals : String -> String
 normaliseLiterals s = s
 
@@ -85,31 +87,38 @@ instance [yamlUnTyped] Show YAMLNode where
 -- ------------------------------------------------------------------ [ Parser ]
 
 -- [ Values ]
+private
 yamlString : Parser YAMLNode
 yamlString = map YAMLString word <?> "YAML String"
 
+private
 yamlNull : Parser YAMLNode
 yamlNull = token "null" >! return YAMLNull <?> "YAML Null"
 
+private
 yamlBool : Parser YAMLNode
 yamlBool = do token "false"; pure $ YAMLBool False
        <|> do token "true";  pure $ YAMLBool True
        <?> "YAML Boolean"
 
+private
 yamlFloat : Parser YAMLNode
 yamlFloat = map YAMLFloat $ map scientificToFloat parseScientific <?> "YAML Floats"
 
+private
 yamlInt : Parser YAMLNode
 yamlInt = do
     num <- map pack (some $ satisfy isDigit)
     pure $ YAMLInt (cast num)
   <?> "YAML Int"
 
+private
 yamlNum : Parser YAMLNode
 yamlNum = yamlFloat <|> yamlInt <?> "YAML Num"
 
 -- [ Scalars ]
 
+private
 yamlQuotedScalar : Parser YAMLNode
 yamlQuotedScalar = yamlQuoteGen '\'' <|> yamlQuoteGen '\"' <?> "YAML Qoted Scalar"
   where
@@ -120,6 +129,7 @@ yamlQuotedScalar = yamlQuoteGen '\'' <|> yamlQuoteGen '\"' <?> "YAML Qoted Scala
         pure $ YAMLScalar $ ws
       <?> "YAML Scalar General"
 
+private
 yamlFlowValue : Parser YAMLNode
 yamlFlowValue = yamlNull <|> yamlBool <|> yamlNum
             <|> yamlQuotedScalar <|> yamlStrs
@@ -131,7 +141,7 @@ yamlFlowValue = yamlNull <|> yamlBool <|> yamlNum
       pure $ YAMLString $ unwords ws
 
 -- [ Nodes ]
-
+private
 yamlFlowSeq : Parser YAMLNode
 yamlFlowSeq = do
     xs <- brackets (commaSep (lexeme yamlFlowValue))
@@ -139,6 +149,7 @@ yamlFlowSeq = do
     pure $ YAMLSeq xs
    <?> "YAML Flow Sequence"
 
+private
 yamlKVPair : Parser (YAMLNode, YAMLNode)
 yamlKVPair = do
    key <- yamlString
@@ -147,6 +158,7 @@ yamlKVPair = do
    pure $ (key, value)
   <?> "YAML KV Pair Flow"
 
+private
 yamlFlowMap : Parser YAMLNode
 yamlFlowMap = do
     xs <- braces (commaSep (lexeme yamlKVPair))
@@ -154,24 +166,28 @@ yamlFlowMap = do
     pure $ YAMLMap xs
   <?> "YAML Flow Map"
 
+
+private
 yamlSentance : Parser YAMLNode
 yamlSentance = do
   ws <- manyTill (space *> word) eol
   pure $ YAMLString $ unwords ws
 
 -- ------------------------------------------------------------------ [ Blocks ]
-
+private
 yamlObject : Parser YAMLNode
 yamlObject = yamlNull <|> yamlBool <|> yamlNum <|> yamlQuotedScalar
          <|> yamlSentance <|> yamlFlowSeq <|> yamlFlowMap
          <?> "YAMLValue"
 
+private
 yamlBlockSeq : Parser YAMLNode
 yamlBlockSeq = do
     xs <- some (token "-" *!> yamlObject <* space)
     pure $ YAMLSeq xs
   <?> "YAML List Sequence"
 
+private
 yamlBlockKVPair : Parser (YAMLNode, YAMLNode)
 yamlBlockKVPair = do
     key <- yamlString
@@ -181,12 +197,14 @@ yamlBlockKVPair = do
     pure $ (key, value)
   <?> "YAML Block KV Pair"
 
+private
 yamlBlockMap : Parser YAMLNode
 yamlBlockMap = do
     xs <- some (yamlBlockKVPair <* space)
     pure $ YAMLMap xs
   <?> "Map Block"
 
+private
 yamlDirective : Parser (String, String)
 yamlDirective = do
     string "%"
@@ -203,7 +221,6 @@ yamlDirective = do
 |||  + Inline Comments.
 |||  + Scalar Blocks
 |||  + Complext Block Map and Block Seq, these only take flow nodes.
-public
 parseYAMLDoc : Parser YAMLNode
 parseYAMLDoc = do
     ds <- some yamlDirective
@@ -222,17 +239,14 @@ parseYAMLDoc = do
 |||  + Inline Comments.
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
-public
 parseYAMLStream : Parser (List YAMLNode)
 parseYAMLStream = some parseYAMLDoc
 
 -- ------------------------------------------------------------------ [ String ]
 
-public
 toString : YAMLNode -> String
 toString doc = show doc
 
-public
 toStringTyped : YAMLNode -> String
 toStringTyped doc = show @{yamlUnTyped} doc
 
@@ -244,7 +258,6 @@ toStringTyped doc = show @{yamlUnTyped} doc
 |||  + Inline Comments.
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
-public
 fromString : String -> Either String YAMLNode
 fromString str = parse parseYAMLDoc str
 
@@ -256,7 +269,6 @@ fromString str = parse parseYAMLDoc str
 |||  + Inline Comments.
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
-public
 readYAMLConfig : String -> Eff (YAMLNode) ConfigEffs
 readYAMLConfig = readConfigFile parseYAMLDoc
 
@@ -266,7 +278,6 @@ readYAMLConfig = readConfigFile parseYAMLDoc
 |||  + Inline Comments.
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
-public
 readYAMLStream : String -> Eff (List YAMLNode) ConfigEffs
 readYAMLStream = readConfigFile parseYAMLStream
 

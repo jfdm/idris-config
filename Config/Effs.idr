@@ -13,6 +13,8 @@ import public Effect.Exception
 
 import public Config.Error
 
+%access public
+
 ConfigEffs : List EFFECT
 ConfigEffs = [FILE_IO (), 'config ::: EXCEPTION ConfigError]
 
