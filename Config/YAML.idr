@@ -8,8 +8,6 @@ module Config.YAML
 import public Lightyear
 import public Lightyear.Strings
 
-import public Data.SortedMap
-
 import public Config.Effs
 
 import Config.Parse.Common

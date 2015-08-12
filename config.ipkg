@@ -6,7 +6,7 @@ modules = Config.Parse.Utils
         , Config.Parse.Common
         , Config.Parse.Reader
         , Config.Error
-	, Config.Effs
+        , Config.Effs
 
         , Config.INI
         , Config.Properties

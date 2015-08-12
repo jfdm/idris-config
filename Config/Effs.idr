@@ -8,7 +8,6 @@ module Config.Effs
 
 import public Effects
 import public Effect.File
-import public Effect.StdIO
 import public Effect.Exception
 
 import public Config.Error
@@ -16,7 +15,7 @@ import public Config.Error
 %access public
 
 ConfigEffs : List EFFECT
-ConfigEffs = [FILE_IO (), 'config ::: EXCEPTION ConfigError]
+ConfigEffs = ['configfile ::: FILE_IO (), 'config ::: EXCEPTION ConfigError]
 
 namespace Config
   raise : ConfigError -> Eff b ['config ::: EXCEPTION ConfigError]

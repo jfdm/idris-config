@@ -12,24 +12,22 @@ import Config.Effs
 
 %access public
 
-private
-readFile : { [FILE_IO (OpenFile Read)] } Eff String
+readFile : { ['configfile ::: FILE_IO (OpenFile Read)] } Eff String
 readFile = readAcc ""
   where
-    readAcc : String -> { [FILE_IO (OpenFile Read)] } Eff String
-    readAcc acc = if (not !eof)
-                     then readAcc (acc ++ !readLine)
+    readAcc : String -> { ['configfile ::: FILE_IO (OpenFile Read)] } Eff String
+    readAcc acc = if (not !('configfile :- eof))
+                     then readAcc (acc ++ !('configfile :- readLine))
                      else pure acc
 
-public
 readConfigFile : Parser a
               -> String
               -> Eff a ConfigEffs
 readConfigFile p f = do
-    case !(open f Read) of
+    case !('configfile :- open f Read) of
       True => do
         src <- readFile
-        close
+        'configfile :- close
         case parse p src of
           Left err  => Config.raise (ParseError err)
           Right res => pure res
