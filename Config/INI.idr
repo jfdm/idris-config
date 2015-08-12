@@ -5,10 +5,11 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.INI
 
-import public Config.Effs
-
 import Lightyear
 import Lightyear.Strings
+
+import public Config.Effs
+import public Config.Error
 
 import Config.Parse.Utils
 import Config.Parse.Common
@@ -64,7 +65,7 @@ parseINI = do
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readINIConfig : String -> Eff INIElem ConfigEffs
+readINIConfig : String -> Eff (Either ConfigError INIElem) ConfigEffs
 readINIConfig = readConfigFile parseINI
 
 -- --------------------------------------------------------------------- [ EOF ]

@@ -259,8 +259,11 @@ toStringTyped doc = show @{yamlUnTyped} doc
 |||  + Inline Comments.
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
-fromString : String -> Either String YAMLNode
-fromString str = parse parseYAMLDoc str
+fromString : String -> Either ConfigError YAMLNode
+fromString str =
+    case parse parseYAMLDoc str of
+      Left err  => Left (ParseError err)
+      Right doc => Right doc
 
 -- -------------------------------------------------------------------- [ Read ]
 
@@ -270,7 +273,7 @@ fromString str = parse parseYAMLDoc str
 |||  + Inline Comments.
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
-readYAMLConfig : String -> Eff (YAMLNode) ConfigEffs
+readYAMLConfig : String -> Eff (Either ConfigError YAMLNode) ConfigEffs
 readYAMLConfig = readConfigFile parseYAMLDoc
 
 ||| This does not recognise:
@@ -280,6 +283,9 @@ readYAMLConfig = readConfigFile parseYAMLDoc
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
 readYAMLStream : String -> Eff (List YAMLNode) ConfigEffs
-readYAMLStream = readConfigFile parseYAMLStream
+readYAMLStream inStr =
+    case !(readConfigFile parseYAMLStream inStr) of
+      Left _   => pure Nil
+      Right ds => pure ds
 
 -- --------------------------------------------------------------------- [ EOF ]

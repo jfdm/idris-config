@@ -7,12 +7,13 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.JSON
 
-import public Config.Effs
-
 import public Data.AVL.Dict
 
 import Lightyear
 import Lightyear.Strings
+
+import public Config.Effs
+import public Config.Error
 
 import Config.Parse.Common
 import Config.Parse.Utils
@@ -96,12 +97,15 @@ toString : JsonValue -> String
 toString doc = show doc
 
 public
-fromString : String -> Either String JsonValue
-fromString str = parse parseJSONFile str
+fromString : String -> Either ConfigError JsonValue
+fromString str =
+    case parse parseJSONFile str of
+      Left err  => Left (ParseError err)
+      Right doc => Right doc
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readJSONConfig : String -> Eff JsonValue ConfigEffs
+readJSONConfig : String -> Eff (Either ConfigError JsonValue) ConfigEffs
 readJSONConfig = readConfigFile parseJSONFile
 
 -- --------------------------------------------------------------------- [ EOF ]

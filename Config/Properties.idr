@@ -5,10 +5,11 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.Properties
 
-import public Config.Effs
-
 import Lightyear
 import Lightyear.Strings
+
+import public Config.Effs
+import public Config.Error
 
 import Config.Parse.Utils
 import Config.Parse.Common
@@ -46,7 +47,7 @@ parseProperties = do
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readPropertiesConfig : String -> Eff Property ConfigEffs
+readPropertiesConfig : String -> Eff (Either ConfigError Property) ConfigEffs
 readPropertiesConfig = readConfigFile parseProperties
 
 -- --------------------------------------------------------------------- [ EOF ]

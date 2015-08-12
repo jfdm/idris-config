@@ -9,6 +9,7 @@ import Lightyear
 import Lightyear.Strings
 
 import Config.Effs
+import Config.Error
 
 %access public
 
@@ -22,14 +23,14 @@ readFile = readAcc ""
 
 readConfigFile : Parser a
               -> String
-              -> Eff a ConfigEffs
-readConfigFile p f = do
+              -> Eff (Either ConfigError a) ConfigEffs
+readConfigFile p f =
     case !(open f Read) of
       True => do
         src <- readFile
         close
         case parse p src of
-          Left err  => Config.raise (ParseError err)
-          Right res => pure res
-      False => Config.raise (FileNotFound f)
+          Left err  => pure $ Left (ParseError err)
+          Right res => pure $ Right res
+      False => pure $ Left (FileNotFound f)
 -- --------------------------------------------------------------------- [ EOF ]
