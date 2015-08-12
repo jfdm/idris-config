@@ -14,7 +14,7 @@ import public Effect.Exception
 import public Config.Error
 
 ConfigEffs : List EFFECT
-ConfigEffs = ['config ::: EXCEPTION ConfigError, FILE_IO ()]
+ConfigEffs = [FILE_IO (), 'config ::: EXCEPTION ConfigError]
 
 namespace Config
   raise : ConfigError -> Eff b ['config ::: EXCEPTION ConfigError]
