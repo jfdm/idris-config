@@ -5,13 +5,10 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.INI
 
-import public Effects
-import public Effect.File
-import public Effect.StdIO
-import public Effect.Exception
+import public Config.Effs
 
-import public Lightyear
-import public Lightyear.Strings
+import Lightyear
+import Lightyear.Strings
 
 import Config.Parse.Utils
 import Config.Parse.Common
@@ -67,7 +64,7 @@ parseINI = do
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readINIConfig : String -> Eff INIElem [EXCEPTION String, FILE_IO ()]
+readINIConfig : String -> Eff INIElem ConfigEffs
 readINIConfig = readConfigFile parseINI
 
 -- --------------------------------------------------------------------- [ EOF ]

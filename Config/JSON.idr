@@ -7,14 +7,12 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.JSON
 
-import public Effects
-import public Effect.File
-import public Effect.StdIO
-import public Effect.Exception
+import public Config.Effs
 
 import public Data.SortedMap
-import public Lightyear
-import public Lightyear.Strings
+
+import Lightyear
+import Lightyear.Strings
 
 import Config.Parse.Common
 import Config.Parse.Utils
@@ -103,9 +101,7 @@ fromString str = parse parseJSONFile str
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readJSONConfig : String -> {[EXCEPTION String, FILE_IO ()]} Eff JsonValue
+readJSONConfig : String -> Eff JsonValue ConfigEffs
 readJSONConfig = readConfigFile parseJSONFile
-
--- saveJSONConfig
 
 -- --------------------------------------------------------------------- [ EOF ]

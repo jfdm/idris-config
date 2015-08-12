@@ -5,19 +5,14 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.Parse.Reader
 
-import Control.Monad.Identity
-
-import Lightyear.Core
-import Lightyear.Combinators
+import Lightyear
 import Lightyear.Strings
 
-import Effects
-import Effect.File
-import Effect.StdIO
-import Effect.Exception
+import Config.Effs
 
-%access private
+%access public
 
+private
 readFile : { [FILE_IO (OpenFile Read)] } Eff String
 readFile = readAcc ""
   where
@@ -27,14 +22,16 @@ readFile = readAcc ""
                      else pure acc
 
 public
-readConfigFile : Parser a -> String -> { [EXCEPTION String, FILE_IO ()] } Eff a
+readConfigFile : Parser a
+              -> String
+              -> Eff a ConfigEffs
 readConfigFile p f = do
     case !(open f Read) of
       True => do
         src <- readFile
         close
         case parse p src of
-          Left err  => raise err
+          Left err  => Config.raise (ParseError err)
           Right res => pure res
-      False => raise "Unable to read configuration file"
+      False => Config.raise (FileNotFound f)
 -- --------------------------------------------------------------------- [ EOF ]

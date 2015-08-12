@@ -5,10 +5,7 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.Parse.Common
 
-import Control.Monad.Identity
-
-import Lightyear.Core
-import Lightyear.Combinators
+import Lightyear
 import Lightyear.Strings
 
 import Config.Parse.Utils

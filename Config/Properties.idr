@@ -5,18 +5,11 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.Properties
 
-import public Effects
-import public Effect.File
-import public Effect.StdIO
-import public Effect.Exception
-
-import public Control.Monad.Identity
-
+import public Config.Effs
 import public Data.SortedMap
 
-import public Lightyear.Core
-import public Lightyear.Combinators
-import public Lightyear.Strings
+import Lightyear
+import Lightyear.Strings
 
 import Config.Parse.Utils
 import Config.Parse.Common
@@ -54,7 +47,7 @@ parseProperties = do
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readPropertiesConfig : String -> {[EXCEPTION String, FILE_IO ()]} Eff Property
+readPropertiesConfig : String -> Eff Property ConfigEffs
 readPropertiesConfig = readConfigFile parseProperties
 
 -- --------------------------------------------------------------------- [ EOF ]

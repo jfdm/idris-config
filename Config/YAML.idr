@@ -5,15 +5,9 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.YAML
 
-import public Effects
-import public Effect.File
-import public Effect.StdIO
-import public Effect.Exception
+import public Config.Effs
 
-import public Control.Monad.Identity
-
-import public Lightyear.Core
-import public Lightyear.Combinators
+import public Lightyear
 import public Lightyear.Strings
 
 import public Data.SortedMap
@@ -70,6 +64,24 @@ instance Show YAMLNode where
   -- Documents
   show (YAMLDoc _ x) = "%YAML 1.2\n---\n" ++ show x ++ "\n...\n"
 
+instance [yamlUnTyped] Show YAMLNode where
+  -- Value Types
+  show YAMLNull       = "\"null\""
+  show (YAMLString x) = show x
+  show (YAMLInt i)    = show i
+  show (YAMLFloat f)  = show f
+  show (YAMLBool b)   = show b
+  -- Node Types
+  show (YAMLScalar s) = show (normaliseLiterals s)
+  show (YAMLSeq ys)   = show ys
+  show (YAMLMap ys)   = "{" ++
+      unwords (intersperse "," (map showKV ys))++ "}"
+     where
+       showKV : (YAMLNode, YAMLNode) -> String
+       showKV (k,v) = show k ++ " : " ++ show v
+  -- Documents
+  show (YAMLDoc _ x) = "%YAML 1.2\n---\n" ++ show x ++ "\n...\n"
+
 -- ------------------------------------------------------------------ [ Parser ]
 
 -- [ Values ]
@@ -113,6 +125,7 @@ yamlFlowValue = yamlNull <|> yamlBool <|> yamlNum
             <|> yamlQuotedScalar <|> yamlStrs
              <?> "YAML Primitives"
   where
+    yamlStrs : Parser YAMLNode
     yamlStrs = do
       ws <- some $ lexeme word
       pure $ YAMLString $ unwords ws
@@ -200,6 +213,7 @@ parseYAMLDoc = do
     pure $ YAMLDoc ds b
    <?> "YAML Document"
   where
+    body : Parser YAMLNode
     body = yamlBlockMap <|> yamlBlockSeq
 
 ||| This does not recognise:
@@ -212,6 +226,28 @@ public
 parseYAMLStream : Parser (List YAMLNode)
 parseYAMLStream = some parseYAMLDoc
 
+-- ------------------------------------------------------------------ [ String ]
+
+public
+toString : YAMLNode -> String
+toString doc = show doc
+
+public
+toStringTyped : YAMLNode -> String
+toStringTyped doc = show @{yamlUnTyped} doc
+
+||| Requires that the file is untyped
+|||
+||| This does not recognise:
+|||  + keep or strip options
+|||  + indent options
+|||  + Inline Comments.
+|||  + Scalar Blocks
+|||  + Complext Map and Seq Blocks
+public
+fromString : String -> Either String YAMLNode
+fromString str = parse parseYAMLDoc str
+
 -- -------------------------------------------------------------------- [ Read ]
 
 ||| This does not recognise:
@@ -221,7 +257,7 @@ parseYAMLStream = some parseYAMLDoc
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
 public
-readYAMLConfig : String -> {[EXCEPTION String, FILE_IO ()]} Eff (YAMLNode)
+readYAMLConfig : String -> Eff (YAMLNode) ConfigEffs
 readYAMLConfig = readConfigFile parseYAMLDoc
 
 ||| This does not recognise:
@@ -231,7 +267,7 @@ readYAMLConfig = readConfigFile parseYAMLDoc
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
 public
-readYAMLStream : String -> {[EXCEPTION String, FILE_IO ()]} Eff $ (List YAMLNode)
+readYAMLStream : String -> Eff (List YAMLNode) ConfigEffs
 readYAMLStream = readConfigFile parseYAMLStream
 
 -- --------------------------------------------------------------------- [ EOF ]
