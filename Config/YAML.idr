@@ -246,10 +246,10 @@ parseYAMLStream = some parseYAMLDoc
 -- ------------------------------------------------------------------ [ String ]
 
 toString : YAMLNode -> String
-toString doc = show doc
+toString doc = show @{yamlUnTyped} doc
 
 toStringTyped : YAMLNode -> String
-toStringTyped doc = show @{yamlUnTyped} doc
+toStringTyped doc = show doc
 
 ||| Requires that the file is untyped
 |||
