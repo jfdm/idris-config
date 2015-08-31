@@ -69,21 +69,22 @@ instance Show YAMLNode where
 
 instance [yamlUnTyped] Show YAMLNode where
   -- Value Types
-  show YAMLNull       = "\"null\""
-  show (YAMLString x) = show x
+  show YAMLNull       = show "null"
+  show (YAMLString x) = x
   show (YAMLInt i)    = show i
   show (YAMLFloat f)  = show f
   show (YAMLBool b)   = show b
   -- Node Types
   show (YAMLScalar s) = show (normaliseLiterals s)
   show (YAMLSeq ys)   = show ys
-  show (YAMLMap ys)   = "{" ++
-      unwords (intersperse "," (map showKV ys))++ "}"
+  show (YAMLMap ys)   = unwords ["{"
+        , unwords (intersperse "," (map showKV ys))
+        ,"}"]
      where
        showKV : (YAMLNode, YAMLNode) -> String
-       showKV (k,v) = show k ++ " : " ++ show v
+       showKV (k,v) = concat [k, ": ", show v]
   -- Documents
-  show (YAMLDoc _ x) = "%YAML 1.2\n---\n" ++ show x ++ "\n...\n"
+  show (YAMLDoc _ x) = unlines ["%YAML 1.2","---", show x,"..."]
 
 -- ------------------------------------------------------------------ [ Parser ]
 
