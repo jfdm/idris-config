@@ -67,24 +67,29 @@ instance Show YAMLNode where
   -- Documents
   show (YAMLDoc _ x) = "%YAML 1.2\n---\n" ++ show x ++ "\n...\n"
 
+showUnTyped : YAMLNode -> String
+showUnTyped YAMLNull       = "null"
+showUnTyped (YAMLString x) = x
+showUnTyped (YAMLInt i)    = show i
+showUnTyped (YAMLFloat f)  = show f
+showUnTyped (YAMLBool b)   = show b
+-- Node Types
+showUnTyped (YAMLScalar s) = show (normaliseLiterals s)
+showUnTyped (YAMLSeq ys)   = unwords ["["
+      , unwords $ intersperse "," (map showUnTyped ys)
+      , "]"]
+showUnTyped (YAMLMap ys)   = unwords ["{"
+      , unwords (intersperse "," (map showUnTypedKV ys))
+      ,"}"]
+   where
+     showUnTypedKV : (YAMLNode, YAMLNode) -> String
+     showUnTypedKV (k,v) = with List concat [showUnTyped k, ": ", showUnTyped  v]
+-- Documents
+showUnTyped (YAMLDoc _ x) = unlines ["%YAML 1.2","---", showUnTyped x,"..."]
+
+
 instance [yamlUnTyped] Show YAMLNode where
-  -- Value Types
-  show YAMLNull       = show "null"
-  show (YAMLString x) = x
-  show (YAMLInt i)    = show i
-  show (YAMLFloat f)  = show f
-  show (YAMLBool b)   = show b
-  -- Node Types
-  show (YAMLScalar s) = show (normaliseLiterals s)
-  show (YAMLSeq ys)   = show ys
-  show (YAMLMap ys)   = unwords ["{"
-        , unwords (intersperse "," (map showKV ys))
-        ,"}"]
-     where
-       showKV : (YAMLNode, YAMLNode) -> String
-       showKV (k,v) = concat [k, ": ", show v]
-  -- Documents
-  show (YAMLDoc _ x) = unlines ["%YAML 1.2","---", show x,"..."]
+  show x = showUnTyped x
 
 -- ------------------------------------------------------------------ [ Parser ]
 
