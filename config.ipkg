@@ -1,6 +1,6 @@
 package config
 
-opts = "-p containers -p effects -p lightyear -p test --typeintype"
+opts = "-p containers -p effects -p lightyear -p test"
 
 modules = Config.Parse.Utils
         , Config.Parse.Common
