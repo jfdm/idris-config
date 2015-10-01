@@ -9,11 +9,13 @@ module Config.Error
 %access public
 
 data ConfigError : Type where
-  ParseError   : String -> ConfigError
+  PureParseErr : String -> ConfigError
+  ParseError   : String -> String -> ConfigError
   FileNotFound : String -> ConfigError
 
 instance Show ConfigError where
-  show (ParseError err)     = unlines ["Parse Error", err]
+  show (PureParseErr err)   = unlines ["Parse Error:", err]
+  show (ParseError fn err)  = unlines ["Parse Error:", fn, err]
   show (FileNotFound fname) = unwords ["File", show fname, "Not Found"]
 
 

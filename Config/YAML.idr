@@ -9,15 +9,14 @@ import Effects
 import Effect.File
 import Effect.Exception
 
-import public Lightyear
-import public Lightyear.Strings
+import Lightyear
+import Lightyear.Char
+import Lightyear.Strings
 
-import public Config.Effs
 import public Config.Error
 
 import public Config.Parse.Common
 import public Config.Parse.Utils
-import public Config.Parse.Reader
 
 %access public
 
@@ -131,15 +130,18 @@ yamlQuotedScalar = yamlQuoteGen '\'' <|> yamlQuoteGen '\"' <?> "YAML Qoted Scala
   where
     yamlQuoteGen : Char -> Parser YAMLNode
     yamlQuoteGen c = do
-        ws <- literallyBetween c
-        space
+        ws <- quoted c
+        spaces
         pure $ YAMLScalar $ ws
       <?> "YAML Scalar General"
 
 private
 yamlFlowValue : Parser YAMLNode
-yamlFlowValue = yamlNull <|> yamlBool <|> yamlNum
-            <|> yamlQuotedScalar <|> yamlStrs
+yamlFlowValue = yamlNull
+            <|> yamlBool
+            <|> yamlNum
+            <|> yamlQuotedScalar
+            <|> yamlStrs
              <?> "YAML Primitives"
   where
     yamlStrs : Parser YAMLNode
@@ -152,7 +154,7 @@ private
 yamlFlowSeq : Parser YAMLNode
 yamlFlowSeq = do
     xs <- brackets (commaSep (lexeme yamlFlowValue))
-    space
+    spaces
     pure $ YAMLSeq xs
    <?> "YAML Flow Sequence"
 
@@ -169,7 +171,7 @@ private
 yamlFlowMap : Parser YAMLNode
 yamlFlowMap = do
     xs <- braces (commaSep (lexeme yamlKVPair))
-    space
+    spaces
     pure $ YAMLMap xs
   <?> "YAML Flow Map"
 
@@ -177,7 +179,7 @@ yamlFlowMap = do
 private
 yamlSentance : Parser YAMLNode
 yamlSentance = do
-  ws <- manyTill (space *> word) eol
+  ws <- manyTill (spaces *> word) endOfLine
   pure $ YAMLString $ unwords ws
 
 -- ------------------------------------------------------------------ [ Blocks ]
@@ -190,7 +192,7 @@ yamlObject = yamlNull <|> yamlBool <|> yamlNum <|> yamlQuotedScalar
 private
 yamlBlockSeq : Parser YAMLNode
 yamlBlockSeq = do
-    xs <- some (token "-" *!> yamlObject <* space)
+    xs <- some (token "-" *!> yamlObject <* spaces)
     pure $ YAMLSeq xs
   <?> "YAML List Sequence"
 
@@ -199,7 +201,7 @@ yamlBlockKVPair : Parser (YAMLNode, YAMLNode)
 yamlBlockKVPair = do
     key <- yamlString
     colon
-    space
+    spaces
     value <- yamlObject
     pure $ (key, value)
   <?> "YAML Block KV Pair"
@@ -207,7 +209,7 @@ yamlBlockKVPair = do
 private
 yamlBlockMap : Parser YAMLNode
 yamlBlockMap = do
-    xs <- some (yamlBlockKVPair <* space)
+    xs <- some (yamlBlockKVPair <* spaces)
     pure $ YAMLMap xs
   <?> "Map Block"
 
@@ -216,8 +218,8 @@ yamlDirective : Parser (String, String)
 yamlDirective = do
     string "%"
     k <- word
-    space
-    v <- manyTill anyChar eol
+    spaces
+    v <- manyTill anyChar endOfLine
     pure $ (k, pack v)
   <?> "YAML DIrective"
 
@@ -268,7 +270,7 @@ toStringTyped doc = show doc
 fromString : String -> Either ConfigError YAMLNode
 fromString str =
     case parse parseYAMLDoc str of
-      Left err  => Left (ParseError err)
+      Left err  => Left (PureParseErr err)
       Right doc => Right doc
 
 -- -------------------------------------------------------------------- [ Read ]
@@ -279,7 +281,7 @@ fromString str =
 |||  + Inline Comments.
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
-readYAMLConfig : String -> Eff (Either ConfigError YAMLNode) ConfigEffs
+readYAMLConfig : String -> Eff (Either ConfigError YAMLNode) [FILE_IO ()]
 readYAMLConfig = readConfigFile parseYAMLDoc
 
 ||| This does not recognise:
@@ -288,7 +290,7 @@ readYAMLConfig = readConfigFile parseYAMLDoc
 |||  + Inline Comments.
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
-readYAMLStream : String -> Eff (List YAMLNode) ConfigEffs
+readYAMLStream : String -> Eff (List YAMLNode) [FILE_IO ()]
 readYAMLStream inStr =
     case !(readConfigFile parseYAMLStream inStr) of
       Left _   => pure Nil

@@ -9,15 +9,17 @@ module Config.JSON
 
 import public Data.AVL.Dict
 
+import Effects
+import Effect.File
+
 import Lightyear
+import Lightyear.Char
 import Lightyear.Strings
 
-import public Config.Effs
 import public Config.Error
 
-import Config.Parse.Common
 import Config.Parse.Utils
-import Config.Parse.Reader
+import Config.Parse.Common
 
 %access private
 
@@ -45,7 +47,7 @@ instance Show JsonValue where
 
 -- ------------------------------------------------------------------ [ Parser ]
 jsonString : Parser String
-jsonString = literallyBetween '"' <?> "JSON String"
+jsonString = quoted '"' <?> "JSON String"
 
 jsonNumber : Parser Float
 jsonNumber = map scientificToFloat parseScientific <?> "JSON Number"
@@ -64,7 +66,7 @@ mutual
 
   keyValuePair : Parser (String, JsonValue)
   keyValuePair = do
-      key <- space *> jsonString <* space
+      key <- spaces *> jsonString <* spaces
       colon
       value <- jsonValue
       pure (key, value)
@@ -82,7 +84,7 @@ mutual
             <|>| map JsonObject jsonObject
 
   jsonValue : Parser JsonValue
-  jsonValue = space *> jsonValue' <* space <?> "JSON Value"
+  jsonValue = spaces *> jsonValue' <* spaces <?> "JSON Value"
 
 public
 parseJSONFile : Parser JsonValue
@@ -100,12 +102,12 @@ public
 fromString : String -> Either ConfigError JsonValue
 fromString str =
     case parse parseJSONFile str of
-      Left err  => Left (ParseError err)
+      Left err  => Left (PureParseErr err)
       Right doc => Right doc
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readJSONConfig : String -> Eff (Either ConfigError JsonValue) ConfigEffs
+readJSONConfig : String -> Eff (Either ConfigError JsonValue) [FILE_IO ()]
 readJSONConfig = readConfigFile parseJSONFile
 
 -- --------------------------------------------------------------------- [ EOF ]

@@ -5,25 +5,37 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.Parse.Common
 
+import Effects
+import Effect.File
+
 import Lightyear
+import Lightyear.Char
 import Lightyear.Strings
+import Lightyear.StringFile
 
 import Config.Parse.Utils
+import Config.Error
 
 %access public
 
 langSpace : Monad m => ParserT m String () -> ParserT m String ()
-langSpace p = p <|> space <?> "Space Lang"
+langSpace p = p <|> spaces <?> "Space Lang"
 
 keyvalue : String
          -> Parser String
          -> Parser (String, String)
 keyvalue s value = do
     k <- word
-    space
+    spaces
     token s
     v <- value
-    space
+    spaces
     pure (k,v)
   <?> "KVPair"
+
+readConfigFile : Parser a
+              -> String
+              -> Eff (Either ConfigError a) [FILE_IO ()]
+readConfigFile p f = parseFile FileNotFound ParseError p f
+
 -- --------------------------------------------------------------------- [ EOF ]

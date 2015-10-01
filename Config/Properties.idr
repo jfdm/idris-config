@@ -5,15 +5,17 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.Properties
 
+import Effects
+import Effect.File
+
 import Lightyear
+import Lightyear.Char
 import Lightyear.Strings
 
-import public Config.Effs
 import public Config.Error
 
 import Config.Parse.Utils
 import Config.Parse.Common
-import Config.Parse.Reader
 
 %access private
 
@@ -31,7 +33,7 @@ propSpace = langSpace propComment <?> "Prop Space"
 
 genKVpair : String -> Parser Property
 genKVpair s = do
-    (k,v) <- keyvalue s (map pack $ manyTill anyChar (eol <|> propComment))
+    (k,v) <- keyvalue s (map pack $ manyTill anyChar (skip endOfLine <|> propComment))
     pure $ PropEntry k v
   <?> "Proeprty KVPair"
 
@@ -47,7 +49,7 @@ parseProperties = do
 
 -- -------------------------------------------------------------------- [ Read ]
 public
-readPropertiesConfig : String -> Eff (Either ConfigError Property) ConfigEffs
+readPropertiesConfig : String -> Eff (Either ConfigError Property) [FILE_IO ()]
 readPropertiesConfig = readConfigFile parseProperties
 
 -- --------------------------------------------------------------------- [ EOF ]

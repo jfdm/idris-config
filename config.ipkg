@@ -4,9 +4,7 @@ opts = "-p containers -p effects -p lightyear -p test"
 
 modules = Config.Parse.Utils
         , Config.Parse.Common
-        , Config.Parse.Reader
         , Config.Error
-        , Config.Effs
 
         , Config.INI
         , Config.Properties

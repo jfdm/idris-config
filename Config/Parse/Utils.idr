@@ -6,6 +6,7 @@
 module Config.Parse.Utils
 
 import Lightyear
+import Lightyear.Char
 import Lightyear.Strings
 
 %access public
@@ -13,14 +14,8 @@ import Lightyear.Strings
 -- ------------------------------------------------------------------- [ Stuff ]
 -- These should be merged into Lightyear
 
-eol : Parser ()
-eol = char '\n' *> return () <?> "eol"
-
-anyChar : Parser Char
-anyChar = satisfy (const True)
-
 word : Parser String
-word = map pack (some $ satisfy isAlphaNum) <?> "Word"
+word = map pack (some $ alphaNum) <?> "Word"
 
 ascii : Parser Char
 ascii = do
@@ -38,21 +33,11 @@ ascii = do
 asciiSeq : Parser String
 asciiSeq = map pack (some ascii) <?> "Ascii String sans space and braces"
 
-literallyBetween : Char -> Parser String
-literallyBetween c = map pack $ between (char c) (char c) (some (satisfy (/= c)))
-
-manyTill : Monad m => ParserT m String a
-                   -> ParserT m String b
-                   -> ParserT m String (List a)
-manyTill p end = scan
-  where
-    scan : Monad m => ParserT m String (List a)
-    scan = do { end; return List.Nil } <|>
-           do { x <- p; xs <- scan; return (x::xs)}
-
 comment : Monad m => String -> ParserT m String ()
 comment str = do
-    skip $ string str *> (manyTill (satisfy (const True)) (satisfy (== '\n')))
+    string str
+    manyTill anyChar endOfLine
+    pure ()
    <?> unwords ["Comment with char", str]
 
 -- ------------------------------------------------------------- [ Hex Numbers ]

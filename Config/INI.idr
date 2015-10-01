@@ -5,15 +5,17 @@
 -- --------------------------------------------------------------------- [ EOH ]
 module Config.INI
 
+import Effects
+import Effect.File
+
 import Lightyear
+import Lightyear.Char
 import Lightyear.Strings
 
-import public Config.Effs
 import public Config.Error
 
 import Config.Parse.Utils
 import Config.Parse.Common
-import Config.Parse.Reader
 
 %access public
 
@@ -41,7 +43,7 @@ iniSpace = langSpace iniComment <?> "INI Space"
 private
 kvpair : Parser INIElem
 kvpair = do
-    (k,v) <- keyvalue "=" (map pack $ manyTill (anyChar) (eol <|> iniComment))
+    (k,v) <- keyvalue "=" (map pack $ manyTill (anyChar) (skip endOfLine <|> iniComment))
     pure $ INIEntry k v
   <?> "INI KVPair"
 
@@ -69,7 +71,7 @@ parseINI = do
 
 -- -------------------------------------------------------------------- [ Read ]
 
-readINIConfig : String -> Eff (Either ConfigError INIElem) ConfigEffs
+readINIConfig : String -> Eff (Either ConfigError INIElem) [FILE_IO ()]
 readINIConfig = readConfigFile parseINI
 
 -- --------------------------------------------------------------------- [ EOF ]
