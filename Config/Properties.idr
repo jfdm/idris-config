@@ -20,7 +20,7 @@ import Config.Parse.Common
 %access private
 
 -- ------------------------------------------------------------------- [ Model ]
-public
+public export
 data Property = PropFile (List Property)
               | PropEntry String String
 
@@ -40,7 +40,7 @@ genKVpair s = do
 kvpair : Parser Property
 kvpair = genKVpair "=" <|> genKVpair ":"
 
-public
+export
 parseProperties : Parser Property
 parseProperties = do
     es <- some (propSpace *> kvpair)
@@ -48,7 +48,7 @@ parseProperties = do
   <?> "Properties File"
 
 -- -------------------------------------------------------------------- [ Read ]
-public
+export
 readPropertiesConfig : String -> Eff (Either ConfigError Property) [FILE_IO ()]
 readPropertiesConfig = readConfigFile parseProperties
 

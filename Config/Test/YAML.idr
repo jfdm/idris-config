@@ -9,6 +9,7 @@ module Config.Test.YAML
 import Config.YAML
 import Test.Parsing
 
+%access export
 -- ------------------------------------------------------------------- [ Begin ]
 
 yamlTest1 : IO ()

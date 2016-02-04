@@ -25,15 +25,16 @@ import Config.Parse.Common
 
 -- ------------------------------------------------------------------- [ Model ]
 
-public
+public export
 data JsonValue = JsonString String
-               | JsonNumber Float
+               | JsonNumber Double
                | JsonBool Bool
                | JsonNull
                | JsonArray (List JsonValue)
                | JsonObject (Dict String JsonValue)
 
-instance Show JsonValue where
+public export
+Show JsonValue where
   show (JsonString s)   = show s
   show (JsonNumber x)   = show x
   show (JsonBool True ) = "true"
@@ -49,7 +50,7 @@ instance Show JsonValue where
 jsonString : Parser String
 jsonString = quoted '"' <?> "JSON String"
 
-jsonNumber : Parser Float
+jsonNumber : Parser Double
 jsonNumber = map scientificToFloat parseScientific <?> "JSON Number"
 
 jsonBool : Parser Bool
@@ -86,7 +87,7 @@ mutual
   jsonValue : Parser JsonValue
   jsonValue = spaces *> jsonValue' <* spaces <?> "JSON Value"
 
-public
+export
 parseJSONFile : Parser JsonValue
 parseJSONFile = (map JsonArray jsonArray)
             <|> (map JsonObject jsonObject)
@@ -94,11 +95,11 @@ parseJSONFile = (map JsonArray jsonArray)
 
 
 
-public
+export
 toString : JsonValue -> String
 toString doc = show doc
 
-public
+export
 fromString : String -> Either ConfigError JsonValue
 fromString str =
     case parse parseJSONFile str of
@@ -106,7 +107,7 @@ fromString str =
       Right doc => Right doc
 
 -- -------------------------------------------------------------------- [ Read ]
-public
+export
 readJSONConfig : String -> Eff (Either ConfigError JsonValue) [FILE_IO ()]
 readJSONConfig = readConfigFile parseJSONFile
 

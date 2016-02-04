@@ -10,6 +10,8 @@ import Config.JSON
 
 import Test.Parsing
 
+%access export
+
 jsonTest1 : IO ()
 jsonTest1 = canParse (Just "JSON Test 1") parseJSONFile
       """{

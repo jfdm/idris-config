@@ -3,17 +3,16 @@
 -- Copyright : (c) Jan de Muijnck-Hughes
 -- License   : see LICENSE
 -- --------------------------------------------------------------------- [ EOH ]
-
 module Config.Error
 
-%access public
+%access public export
 
 data ConfigError : Type where
   PureParseErr : String -> ConfigError
   ParseError   : String -> String -> ConfigError
   FileNotFound : String -> ConfigError
 
-instance Show ConfigError where
+Show ConfigError where
   show (PureParseErr err)   = unlines ["Parse Error:", err]
   show (ParseError fn err)  = unlines ["Parse Error:", fn, err]
   show (FileNotFound fname) = unwords ["File", show fname, "Not Found"]

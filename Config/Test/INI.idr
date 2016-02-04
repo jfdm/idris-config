@@ -9,6 +9,8 @@ import Config.INI
 
 import Test.Parsing
 
+%access export
+
 -- ------------------------------------------------------------------- [ BEGIN ]
 
 runTests : IO ()

@@ -17,15 +17,17 @@ import public Config.Error
 import Config.Parse.Utils
 import Config.Parse.Common
 
-%access public
+%access export
 
 -- ------------------------------------------------------------------- [ Model ]
 
+public export
 data INIElem = INIFile (List INIElem)
              | INIEntry String String
              | INISection String (List INIElem)
 
-instance Show INIElem where
+public export
+Show INIElem where
   show (INIFile is)   = show is
   show (INIEntry k v) = show k ++ " = " ++ show v ++ "\n"
   show (INISection t kvs) = "[" ++ t ++ "]\n" ++ show kvs

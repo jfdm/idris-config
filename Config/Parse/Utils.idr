@@ -9,7 +9,7 @@ import Lightyear
 import Lightyear.Char
 import Lightyear.Strings
 
-%access public
+%access export
 
 -- ------------------------------------------------------------------- [ Stuff ]
 -- These should be merged into Lightyear
@@ -79,12 +79,13 @@ specialChar = do
 -- Borrowed from Lightyear JSON Examples
 -- inspired by Haskell's Data.Scientific module
 
+public export
 record Scientific where
   constructor MkScientific
   coefficient : Integer
   exponent : Integer
 
-scientificToFloat : Scientific -> Float
+scientificToFloat : Scientific -> Double
 scientificToFloat (MkScientific c e) = fromInteger c * exp
   where
     exp = if e < 0

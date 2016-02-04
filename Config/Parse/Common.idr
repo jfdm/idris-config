@@ -16,7 +16,7 @@ import Lightyear.StringFile
 import Config.Parse.Utils
 import Config.Error
 
-%access public
+%access export
 
 langSpace : Monad m => ParserT m String () -> ParserT m String ()
 langSpace p = p <|> spaces <?> "Space Lang"
