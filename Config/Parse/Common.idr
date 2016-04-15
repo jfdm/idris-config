@@ -18,7 +18,7 @@ import Config.Error
 
 %access export
 
-langSpace : Monad m => ParserT m String () -> ParserT m String ()
+langSpace : Parser () -> Parser ()
 langSpace p = p <|> spaces <?> "Space Lang"
 
 keyvalue : String

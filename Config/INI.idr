@@ -35,11 +35,11 @@ Show INIElem where
 -- ------------------------------------------------------------------ [ Parser ]
 
 private
-iniComment : Monad m => ParserT m String ()
+iniComment : Parser ()
 iniComment = comment ";" <|> comment "#"
 
 private
-iniSpace : Monad m => ParserT m String ()
+iniSpace : Parser ()
 iniSpace = langSpace iniComment <?> "INI Space"
 
 private

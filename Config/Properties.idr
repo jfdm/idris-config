@@ -25,10 +25,10 @@ data Property = PropFile (List Property)
               | PropEntry String String
 
 -- ------------------------------------------------------------------ [ Parser ]
-propComment : Monad m => ParserT m String ()
+propComment : Parser ()
 propComment = comment "#" <|> comment "!" <?> "Property Comments"
 
-propSpace : Monad m => ParserT m String ()
+propSpace : Parser ()
 propSpace = langSpace propComment <?> "Prop Space"
 
 genKVpair : String -> Parser Property

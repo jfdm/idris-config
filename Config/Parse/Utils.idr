@@ -33,7 +33,7 @@ ascii = do
 asciiSeq : Parser String
 asciiSeq = map pack (some ascii) <?> "Ascii String sans space and braces"
 
-comment : Monad m => String -> ParserT m String ()
+comment : String -> Parser ()
 comment str = do
     string str
     manyTill anyChar endOfLine
