@@ -10,12 +10,18 @@ module Config.Error
 data ConfigError : Type where
   PureParseErr : String -> ConfigError
   ParseError   : String -> String -> ConfigError
-  FileNotFound : String -> ConfigError
+  FileNotFound : String -> FileError -> ConfigError
 
 Show ConfigError where
   show (PureParseErr err)   = unlines ["Parse Error:", err]
-  show (ParseError fn err)  = unlines ["Parse Error:", fn, err]
-  show (FileNotFound fname) = unwords ["File", show fname, "Not Found"]
+  show (ParseError fn err)  =
+    unlines [ unwords ["Parse Error:", fn, "error was:"]
+            , err
+            ]
+  show (FileNotFound fname err) =
+    unlines [ unwords ["File", show fname, "caused error:"]
+            , show err
+            ]
 
 
 -- --------------------------------------------------------------------- [ EOF ]

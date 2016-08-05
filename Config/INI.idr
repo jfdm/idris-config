@@ -73,7 +73,7 @@ parseINI = do
 
 -- -------------------------------------------------------------------- [ Read ]
 
-readINIConfig : String -> Eff (Either ConfigError INIElem) [FILE_IO ()]
+readINIConfig : String -> Eff (Either ConfigError INIElem) [FILE ()]
 readINIConfig = readConfigFile parseINI
 
 -- --------------------------------------------------------------------- [ EOF ]

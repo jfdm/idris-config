@@ -108,7 +108,7 @@ fromString str =
 
 -- -------------------------------------------------------------------- [ Read ]
 export
-readJSONConfig : String -> Eff (Either ConfigError JsonValue) [FILE_IO ()]
+readJSONConfig : String -> Eff (Either ConfigError JsonValue) [FILE ()]
 readJSONConfig = readConfigFile parseJSONFile
 
 -- --------------------------------------------------------------------- [ EOF ]

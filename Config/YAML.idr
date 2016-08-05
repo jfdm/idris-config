@@ -270,7 +270,7 @@ fromString str =
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
 export
-readYAMLConfig : String -> Eff (Either ConfigError YAMLNode) [FILE_IO ()]
+readYAMLConfig : String -> Eff (Either ConfigError YAMLNode) [FILE ()]
 readYAMLConfig = readConfigFile parseYAMLDoc
 
 ||| This does not recognise:
@@ -280,7 +280,7 @@ readYAMLConfig = readConfigFile parseYAMLDoc
 |||  + Scalar Blocks
 |||  + Complext Map and Seq Blocks
 export
-readYAMLStream : String -> Eff (List YAMLNode) [FILE_IO ()]
+readYAMLStream : String -> Eff (List YAMLNode) [FILE ()]
 readYAMLStream inStr =
     case !(readConfigFile parseYAMLStream inStr) of
       Left _   => pure Nil

@@ -49,7 +49,7 @@ parseProperties = do
 
 -- -------------------------------------------------------------------- [ Read ]
 export
-readPropertiesConfig : String -> Eff (Either ConfigError Property) [FILE_IO ()]
+readPropertiesConfig : String -> Eff (Either ConfigError Property) [FILE ()]
 readPropertiesConfig = readConfigFile parseProperties
 
 -- --------------------------------------------------------------------- [ EOF ]

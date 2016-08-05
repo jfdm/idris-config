@@ -35,7 +35,7 @@ keyvalue s value = do
 
 readConfigFile : Parser a
               -> String
-              -> Eff (Either ConfigError a) [FILE_IO ()]
+              -> Eff (Either ConfigError a) [FILE ()]
 readConfigFile p f = parseFile FileNotFound ParseError p f
 
 -- --------------------------------------------------------------------- [ EOF ]
