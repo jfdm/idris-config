@@ -98,7 +98,7 @@ yamlString : Parser YAMLNode
 yamlString = map YAMLString word <?> "YAML String"
 
 yamlNull : Parser YAMLNode
-yamlNull = token "null" >! return YAMLNull <?> "YAML Null"
+yamlNull = token "null" >! pure YAMLNull <?> "YAML Null"
 
 yamlBool : Parser YAMLNode
 yamlBool = do token "false"; pure $ YAMLBool False
