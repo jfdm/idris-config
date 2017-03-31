@@ -3,18 +3,19 @@
 -- Copyright : (c) Jan de Muijnck-Hughes
 -- License   : see LICENSE
 -- --------------------------------------------------------------------- [ EOH ]
-
 module Config.Test.YAML
 
 import Config.YAML
-import Test.Parsing
+
+import Lightyear.Testing
 
 %access export
 -- ------------------------------------------------------------------- [ Begin ]
 
-yamlTest1 : IO ()
-yamlTest1 = canParse (Just "YAML Test 1") parseYAMLDoc
-    """%YAML 1.2
+yamlTest1 : TestReport
+yamlTest1 = parseTest "YAML Test 1"
+                      parseYAMLDoc
+                      """%YAML 1.2
 ---
 receipt: Oz Ware Purchase Invoice
 date: "2012 08 06"
@@ -29,9 +30,10 @@ billto: { city: East Centerville, state: KS}
 ...
     """
 
-yamlTest2 : IO ()
-yamlTest2 = parseTestB (Just "YAML Test 2") parseYAMLDoc
-    """# sequencer protocols for Laser eye surgery
+yamlTest2 : TestReport
+yamlTest2 = parseTestNot "YAML Test 2"
+                         parseYAMLDoc
+                         """# sequencer protocols for Laser eye surgery
 ---
 - step:  &id001                  # defines anchor label &id001
     instrument:      Lasik 2000
@@ -53,9 +55,10 @@ yamlTest2 = parseTestB (Just "YAML Test 2") parseYAMLDoc
 - step: *id002
 """
 
-yamlTest3 : IO ()
-yamlTest3 = canParse (Just "YAML Test 3") parseYAMLDoc
-    """%YAML 1.2
+yamlTest3 : TestReport
+yamlTest3 = parseTest "YAML Test 3"
+                      parseYAMLDoc
+                      """%YAML 1.2
 ---
 pattern: {problem: file.p, solution: file.p}
 pattern: {problem: file.p, solution: file.p}
@@ -63,8 +66,5 @@ pattern: {problem: file.p, solution: file.p}
     """
 
 runTests : IO ()
-runTests = do
-  yamlTest1
-  yamlTest2
-  yamlTest3
+runTests = Testing.runTests [yamlTest1, yamlTest2, yamlTest3]
 -- --------------------------------------------------------------------- [ EOF ]

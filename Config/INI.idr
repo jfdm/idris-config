@@ -8,9 +8,9 @@ module Config.INI
 import Effects
 import Effect.File
 
-import Lightyear
-import Lightyear.Char
-import Lightyear.Strings
+import public Lightyear
+import public Lightyear.Char
+import public Lightyear.Strings
 
 import public Config.Error
 

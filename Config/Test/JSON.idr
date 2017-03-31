@@ -3,18 +3,18 @@
 -- Copyright : (c) Jan de Muijnck-Hughes
 -- License   : see LICENSE
 -- --------------------------------------------------------------------- [ EOH ]
-
 module Config.Test.JSON
 
 import Config.JSON
 
-import Test.Parsing
+import Lightyear.Testing
 
 %access export
 
-jsonTest1 : IO ()
-jsonTest1 = canParse (Just "JSON Test 1") parseJSONFile
-      """{
+jsonTest1 : TestReport
+jsonTest1 = parseTest "JSON Test 1"
+                      parseJSONFile
+                      """{
           "firstName": "John",
           "lastName": "Smith",
           "isAlive": true,
@@ -41,9 +41,10 @@ jsonTest1 = canParse (Just "JSON Test 1") parseJSONFile
       }
       """
 
-jsonTest2 : IO ()
-jsonTest2 = canParse (Just "JSON Test 2") parseJSONFile
-    """{
+jsonTest2 : TestReport
+jsonTest2 = parseTest "JSON Test 2"
+                      parseJSONFile
+                      """{
         "$schema": "http://json-schema.org/draft-03/schema#",
         "name": "Product",
         "type": "object",
@@ -83,9 +84,11 @@ jsonTest2 = canParse (Just "JSON Test 2") parseJSONFile
         }
     }
     """
-jsonTest3 : IO ()
-jsonTest3 = canParse (Just "JSON Test 3") parseJSONFile
-    """{
+
+jsonTest3 : TestReport
+jsonTest3 = parseTest "JSON Test 3"
+                      parseJSONFile
+                      """{
     "firstName": "John",
     "lastName": "Smith",
     "isAlive": true,
@@ -113,9 +116,6 @@ jsonTest3 = canParse (Just "JSON Test 3") parseJSONFile
     """
 
 runTests : IO ()
-runTests = do
-    jsonTest1
-    jsonTest2
-    jsonTest3
+runTests = Testing.runTests [jsonTest1, jsonTest2, jsonTest3]
 
 -- --------------------------------------------------------------------- [ EOF ]

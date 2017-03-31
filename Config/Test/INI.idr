@@ -7,16 +7,17 @@ module Config.Test.INI
 
 import Config.INI
 
-import Test.Parsing
+import Lightyear.Testing
 
 %access export
 
 -- ------------------------------------------------------------------- [ BEGIN ]
 
 runTests : IO ()
-runTests = do
-    canParse (Just "INI Test 1") parseINI
-        """; last modified 1 April 2001 by John Doe
+runTests = Testing.runTests
+    [ parseTest "INI Test 1"
+                parseINI
+                """; last modified 1 April 2001 by John Doe
 [owner]
 name=John Doe
 organization=Acme Widgets Inc.
@@ -26,10 +27,11 @@ organization=Acme Widgets Inc.
 server=192.0.2.62
 port=143
 file="payroll.dat"
-        """
+"""
 
-    canParse (Just "INI Test 2") parseINI
-        """#Comment
+    , parseTest "INI Test 2"
+                parseINI
+                """#Comment
 a=b
 a=c
 
@@ -42,5 +44,5 @@ a=b
 
 b=b
 """
-
+  ]
 -- --------------------------------------------------------------------- [ EOF ]

@@ -13,7 +13,6 @@ pkgs = containers
      , effects
      , lightyear
      , test
-     , testparse
 
 modules = Config.Parse.Utils
         , Config.Parse.Common
