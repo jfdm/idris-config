@@ -205,7 +205,7 @@ yamlDirective = do
     spaces
     v <- manyTill anyChar endOfLine
     pure $ (k, pack v)
-  <?> "YAML DIrective"
+  <?> "YAML Directive"
 
 
 ||| This does not recognise:
